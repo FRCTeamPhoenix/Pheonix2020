@@ -1,8 +1,10 @@
 #pragma once
 
-#include <frc2/commands/Subsystem.h>
+#include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-#include <frc2/drive/DifferentialDrive.h>
+#include <frc/drive/DifferentialDrive.h>
+
+#include "RobotMap.h"
 
 class TankSubsystem : public frc2::Subsystem {
     public:
