@@ -5,6 +5,7 @@
 #include <frc/drive/DifferentialDrive.h>
 
 #include "Constants.h"
+#include "adi/ADIS16448_IMU.h"
 
 class TankSubsystem : public frc2::SubsystemBase {
     public:
@@ -23,8 +24,16 @@ class TankSubsystem : public frc2::SubsystemBase {
         void setHighGear();
         void setLowGear();
 
+        //used to check the dashboard for any calibration related things to gyro
+        void updateGyro();
+
     private:
         TankSubsystem();
+
+        int to180Scale(int original);
+
+        frc::ADIS16448_IMU m_imu{};
+
         const int TIMEOUT = 10;
 
         WPI_TalonSRX m_frontLeft = {TALON_FRONT_LEFT};

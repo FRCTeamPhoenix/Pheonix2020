@@ -1,6 +1,8 @@
 #include "subsystems/TankSubsystem.h"
 #include "PCMHandler.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
+
 TankSubsystem::TankSubsystem() {
     
 }
@@ -43,4 +45,29 @@ void TankSubsystem::setHighGear() {
 
 void TankSubsystem::setLowGear(){
     PCMHandler::getInstance()->setLowGear();
+}
+
+void TankSubsystem::updateGyro(){
+    
+    //update the values
+    frc::SmartDashboard::PutNumber("Gyro X", to180Scale((int)m_imu.GetAngleX()));
+    frc::SmartDashboard::PutNumber("Gyro Y", to180Scale((int)m_imu.GetAngleY()));
+    frc::SmartDashboard::PutNumber("Gyro Z", to180Scale((int)m_imu.GetAngleZ()));
+
+    //calibrate gyro if button pressed
+    if(frc::SmartDashboard::GetBoolean("GyroCalibrate",false)){
+        m_imu.Calibrate();
+    }
+
+    if(frc::SmartDashboard::GetBoolean("GyroReset",false)){
+        m_imu.Reset();
+    }
+
+    //reset the values
+    frc::SmartDashboard::PutBoolean("GyroCalibrate", false);
+    frc::SmartDashboard::PutBoolean("GyroReset", false);
+}
+
+int TankSubsystem::to180Scale(int original){
+    return original > 0 ? (original + 180) % 360 - 180 : 180 - (abs(original) + 180) % 360; 
 }

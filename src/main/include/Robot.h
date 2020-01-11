@@ -10,8 +10,6 @@
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
 
-#include "RobotContainer.h"
-
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -23,7 +21,4 @@ class Robot : public frc::TimedRobot {
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TestPeriodic() override;
-
- private:
-  RobotContainer m_container;
 };
