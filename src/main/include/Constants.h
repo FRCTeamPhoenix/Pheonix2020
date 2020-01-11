@@ -16,3 +16,11 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+const int TALON_FRONT_LEFT = 3;
+const int TALON_BACK_LEFT = 4;
+const int TALON_FRONT_RIGHT = 1;
+const int TALON_BACK_RIGHT = 2;
+
+const int PCM_CAN_ID = 11;
+const int SOLENOID_HIGH_GEAR = 6;
+const int SOLENOID_LOW_GEAR = 7;

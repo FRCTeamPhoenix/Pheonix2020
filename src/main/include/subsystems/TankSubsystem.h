@@ -4,9 +4,9 @@
 #include <ctre/Phoenix.h>
 #include <frc/drive/DifferentialDrive.h>
 
-#include "RobotMap.h"
+#include "Constants.h"
 
-class TankSubsystem : public frc2::Subsystem {
+class TankSubsystem : public frc2::SubsystemBase {
     public:
         //have a singleton based subsytem since you will only have 1 object
         static TankSubsystem* getInstance(){
