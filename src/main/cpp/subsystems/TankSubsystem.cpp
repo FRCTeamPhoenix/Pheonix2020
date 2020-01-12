@@ -54,6 +54,10 @@ void TankSubsystem::updateGyro(){
     frc::SmartDashboard::PutNumber("Gyro Y", to180Scale((int)m_imu.GetAngleY()));
     frc::SmartDashboard::PutNumber("Gyro Z", to180Scale((int)m_imu.GetAngleZ()));
 
+    frc::SmartDashboard::PutNumber("Accel X", m_imu.GetAccelX());
+    frc::SmartDashboard::PutNumber("Accel Y", m_imu.GetAccelY());
+    frc::SmartDashboard::PutNumber("Accel Z", m_imu.GetAccelZ());
+
     //calibrate gyro if button pressed
     if(frc::SmartDashboard::GetBoolean("GyroCalibrate",false)){
         m_imu.Calibrate();
