@@ -9,7 +9,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
-
+#include "commands/AutoCommand.h"
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -20,5 +20,9 @@ class Robot : public frc::TimedRobot {
   void AutonomousPeriodic() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
+  void TestInit() override;
   void TestPeriodic() override;
+
+private:
+  AutoCommand m_autoCommand;
 };
