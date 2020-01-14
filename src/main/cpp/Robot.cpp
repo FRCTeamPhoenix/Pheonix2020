@@ -10,13 +10,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 #include "subsystems/TankSubsystem.h"
-#include "commands/AutoCommand.h"
-#include "PCMHandler.h"
 
-void Robot::RobotInit() {
-
-    TankSubsystem::getInstance()->init();
-}
+void Robot::RobotInit() {}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -27,16 +22,8 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() { 
+    frc2::CommandScheduler::GetInstance().Run();
     TankSubsystem::getInstance()->updateGyro();
-
-    //get and print the pose stuff
-    TankSubsystem::getInstance()->updateOdometry();
-    auto pose = TankSubsystem::getInstance()->getPose();
-
-    frc::SmartDashboard::PutNumber("gyroThing",pose.Rotation().Degrees().toLinearized<int>());
-    frc::SmartDashboard::PutNumber("X",pose.Translation().X().toLinearized<double>());
-    frc::SmartDashboard::PutNumber("Y",pose.Translation().Y().toLinearized<double>());
-    
 }
 
 /**
@@ -53,29 +40,11 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-    //make sure the PCM is turned on
-    PCMHandler::getInstance()->turnOn();
-
-    //init the tank subsystem
-    TankSubsystem::getInstance()->init();
-
-    //set it to high gear
-    TankSubsystem::getInstance()->setHighGear();
 }
 
-void Robot::AutonomousPeriodic() {
-    TankSubsystem::getInstance()->updateOdometry();
-}
+void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-    //reset to zero
-    TankSubsystem::getInstance()->zeroEncoders();
-
-    //make sure the PCM is turned on
-    PCMHandler::getInstance()->turnOn();
-
-    //init the tank subsystem
-    TankSubsystem::getInstance()->init();
 }
 
 /**
@@ -83,27 +52,10 @@ void Robot::TeleopInit() {
  */
 void Robot::TeleopPeriodic() {}
 
-void Robot::TestInit() {
-    //make sure the PCM is turned on
-    PCMHandler::getInstance()->turnOn();
-
-    //init the tank subsystem
-    TankSubsystem::getInstance()->init();
-
-    TankSubsystem::getInstance()->zeroEncoders();
-
-    //set it to high gear
-    TankSubsystem::getInstance()->setHighGear();
-
-    frc2::CommandScheduler::GetInstance().Schedule(&m_autoCommand);
-}
-
 /**
  * This function is called periodically during test mode.
  */
-void Robot::TestPeriodic() {
-    frc2::CommandScheduler::GetInstance().Run();
-}
+void Robot::TestPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
