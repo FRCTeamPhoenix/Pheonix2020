@@ -57,6 +57,11 @@ void Robot::TeleopPeriodic() {
 
 }
 
+void Robot::TestInit() {
+    TankSubsystem::getInstance()->init();
+    frc2::CommandScheduler::GetInstance().Schedule(&m_profile);
+}
+
 /**
  * This function is called periodically during test mode.
  */

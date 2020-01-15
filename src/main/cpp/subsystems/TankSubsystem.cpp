@@ -16,12 +16,12 @@ void TankSubsystem::init(){
     m_backRight.Follow(m_frontRight);
 
     //keep the left sensors the way they are
-    m_frontLeft.SetInverted(false);
+    m_frontLeft.SetInverted(true);
     m_backLeft.SetInverted(false);
 
     //invert the right side sensors
-    m_frontRight.SetInverted(true);
-    m_backRight.SetInverted(true);
+    m_frontRight.SetInverted(false);
+    m_backRight.SetInverted(false);
 
     //prevent the motors from bumping small percents to a minimum
     m_frontLeft.ConfigNominalOutputForward(0, TIMEOUT);
