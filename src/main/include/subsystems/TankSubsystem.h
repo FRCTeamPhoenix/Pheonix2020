@@ -24,11 +24,15 @@ class TankSubsystem : public frc2::SubsystemBase {
         void setHighGear();
         void setLowGear();
 
+        //zero encoders
+        void zeroEncoders();
+
         //used to check the dashboard for any calibration related things to gyro
         void updateGyro();
 
         //add a new motion profile instance to a drivetrain
         WPI_TalonSRX* getFrontLeft() {return &m_frontLeft;}
+        WPI_TalonSRX* getFrontRight() {return &m_frontRight;}
     private:
         TankSubsystem();
 

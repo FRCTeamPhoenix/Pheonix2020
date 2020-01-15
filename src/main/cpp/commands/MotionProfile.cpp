@@ -4,16 +4,20 @@
 
 MotionProfile::MotionProfile(){
     AddRequirements(TankSubsystem::getInstance());
+
+    //allocate a new one to prevent copy operation
+    m_stream = new ctre::phoenix::motion::BufferedTrajectoryPointStream();
+
 }
 
 void MotionProfile::Initialize(){
     m_frontLeft = TankSubsystem::getInstance()->getFrontLeft();
+    m_frontLeft->ClearMotionProfileTrajectories();
+    
+    m_stream->Clear();
 
-    ctre::phoenix::motion::BufferedTrajectoryPointStream stream;
-
+    ctre::phoenix::motion::TrajectoryPoint point;
     for(int i = 0; i < kMotionProfileSz; i++){
-        ctre::phoenix::motion::TrajectoryPoint point;
-
         double positionRot = kMotionProfile[i][0];
         double velocityRPM = kMotionProfile[i][1];
         int durationMilliseconds = (int) kMotionProfile[i][2];
@@ -30,12 +34,21 @@ void MotionProfile::Initialize(){
         point.isLastPoint = ((i + 1) == kMotionProfileSz); /* set this to true on the last point */
         point.arbFeedFwd = 0; /* you can add a constant offset to add to PID[0] output here */
 
-        stream.Write(point);
+        m_stream->Write(point);
     }
 
-    m_frontLeft->StartMotionProfile(stream, kMotionProfileSz, ControlMode::MotionProfile);
+    std::cout<<"write finished"<<std::endl;
+    m_frontLeft->StartMotionProfile(*m_stream, 10, ControlMode::MotionProfile);
+    std::cout<<"motion profile started"<<std::endl;
+}
+
+void MotionProfile::End(bool interrupted)
+{
+    std::cout<<"motion profile end"<<std::endl;
 }
 
 bool MotionProfile::IsFinished(){
-    return m_frontLeft->IsMotionProfileFinished();
+    bool isFinished = m_frontLeft->IsMotionProfileFinished();
+    std::cout<< isFinished <<std::endl;
+    return isFinished;
 }

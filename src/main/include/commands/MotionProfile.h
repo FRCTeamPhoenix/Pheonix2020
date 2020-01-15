@@ -133,7 +133,11 @@ public:
 
     void Initialize() override;
 
+    void End(bool interrupted) override;
+
     bool IsFinished() override;
 private:
+    ctre::phoenix::motion::BufferedTrajectoryPointStream* m_stream = nullptr;
+
     WPI_TalonSRX* m_frontLeft;
 };

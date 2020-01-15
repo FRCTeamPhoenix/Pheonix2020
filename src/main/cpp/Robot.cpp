@@ -11,7 +11,9 @@
 #include <frc2/command/CommandScheduler.h>
 #include "subsystems/TankSubsystem.h"
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+    TankSubsystem::getInstance()->init();
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -53,14 +55,18 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {}
 
 void Robot::TestInit() {
-    TankSubsystem::getInstance()->init();
+    TankSubsystem::getInstance()->zeroEncoders();
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+
     frc2::CommandScheduler::GetInstance().Schedule(&m_profile);
 }
 
 /**
  * This function is called periodically during test mode.
  */
-void Robot::TestPeriodic() {}
+void Robot::TestPeriodic() {
+    //TankSubsystem::getInstance()->setSpeed(0.75, 0.75);
+}
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }

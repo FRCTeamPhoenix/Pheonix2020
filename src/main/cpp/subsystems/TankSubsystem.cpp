@@ -15,12 +15,18 @@ void TankSubsystem::init(){
     m_backLeft.Follow(m_frontLeft);
     m_backRight.Follow(m_frontRight);
 
-    //keep the left sensors the way they are
+    //change output to match + (input = output ?)
+    m_frontLeft.SetSensorPhase(false);
+
+    //invert left side motion (is it going the right way ?)
     m_frontLeft.SetInverted(true);
     m_backLeft.SetInverted(false);
 
-    //invert the right side sensors
-    m_frontRight.SetInverted(false);
+    //change output to match +
+    m_frontRight.SetSensorPhase(true);
+
+    //invert the right side motion
+    m_frontRight.SetInverted(true);
     m_backRight.SetInverted(false);
 
     //prevent the motors from bumping small percents to a minimum
@@ -34,6 +40,14 @@ void TankSubsystem::init(){
 	m_frontLeft.ConfigPeakOutputReverse(-1.0, TIMEOUT);
 	m_frontRight.ConfigPeakOutputForward(1.0, TIMEOUT);
     m_frontRight.ConfigPeakOutputReverse(-1.0, TIMEOUT);
+    
+    m_frontLeft.Config_kP(0, 1.0);
+    //(75% X 1023) / (speed at 75%)
+    //left = 400
+    m_frontLeft.Config_kF(0, (.75 * 1023.0) / 400.0);
+    m_frontRight.Config_kP(0, 1.0);
+    //right = 276
+    m_frontRight.Config_kF(0, (.75 * 1023.0) / 276.0);
 }
 
 void TankSubsystem::setSpeed(const double& left, const double& right){
@@ -45,6 +59,12 @@ void TankSubsystem::setHighGear() {
 
 void TankSubsystem::setLowGear(){
     PCMHandler::getInstance()->setLowGear();
+}
+
+void TankSubsystem::zeroEncoders(){
+    m_frontLeft.GetSensorCollection().SetQuadraturePosition(0);
+    m_frontRight.GetSensorCollection().SetQuadraturePosition(0);
+    
 }
 
 void TankSubsystem::updateGyro(){
