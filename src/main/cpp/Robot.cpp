@@ -10,6 +10,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 #include "subsystems/TankSubsystem.h"
+#include "PCMHandler.h"
 
 void Robot::RobotInit() {}
 
@@ -45,12 +46,16 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+    PCMHandler::getInstance()->turnOn();
+    // frc2::CommandScheduler::GetInstance()->AddCommand();
 }
 
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+
+}
 
 /**
  * This function is called periodically during test mode.
