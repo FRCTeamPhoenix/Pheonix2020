@@ -2,19 +2,24 @@
 
 #include "subsystems/TankSubsystem.h"
 
+#include <iostream>
+
 MotionProfile::MotionProfile(){
     AddRequirements(TankSubsystem::getInstance());
-
-    //allocate a new one to prevent copy operation
-    m_stream = new ctre::phoenix::motion::BufferedTrajectoryPointStream();
-
 }
 
 void MotionProfile::Initialize(){
-    m_frontLeft = TankSubsystem::getInstance()->getFrontLeft();
-    m_frontLeft->ClearMotionProfileTrajectories();
-    
-    m_stream->Clear();
+    //allocate a new one to prevent copy operation
+    m_leftStream = new ctre::phoenix::motion::BufferedTrajectoryPointStream();
+    m_rightStream = new ctre::phoenix::motion::BufferedTrajectoryPointStream();
+
+    int err = m_leftStream->Clear();
+    err = m_rightStream->Clear();
+
+    //print out errors
+    if(err != 0){
+        std::cout<<"Clear failed: "<<err<<std::endl;
+    }
 
     ctre::phoenix::motion::TrajectoryPoint point;
     for(int i = 0; i < kMotionProfileSz; i++){
@@ -34,21 +39,32 @@ void MotionProfile::Initialize(){
         point.isLastPoint = ((i + 1) == kMotionProfileSz); /* set this to true on the last point */
         point.arbFeedFwd = 0; /* you can add a constant offset to add to PID[0] output here */
 
-        m_stream->Write(point);
+        err = m_leftStream->Write(point);
+        err = m_rightStream->Write(point);
+        if(err != 0){
+            std::cout<<"Write failed: "<<err<<std::endl;
+        }
     }
 
+    m_frontLeft = TankSubsystem::getInstance()->getFrontLeft();
+    m_frontRight = TankSubsystem::getInstance()->getFrontRight();
+
     std::cout<<"write finished"<<std::endl;
-    m_frontLeft->StartMotionProfile(*m_stream, 10, ControlMode::MotionProfile);
+    err = m_frontLeft->StartMotionProfile(*m_leftStream, 10, ControlMode::MotionProfile);
+    err = m_frontRight->StartMotionProfile(*m_rightStream, 10, ControlMode::MotionProfile);
+    if(err != 0){
+        std::cout<<"StartMotionProfile failed: "<<err<<std::endl;
+    }
     std::cout<<"motion profile started"<<std::endl;
 }
 
 void MotionProfile::End(bool interrupted)
 {
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
     std::cout<<"motion profile end"<<std::endl;
 }
 
 bool MotionProfile::IsFinished(){
-    bool isFinished = m_frontLeft->IsMotionProfileFinished();
-    std::cout<< isFinished <<std::endl;
+    bool isFinished = m_frontLeft->IsMotionProfileFinished() && m_frontRight->IsMotionProfileFinished();
     return isFinished;
 }

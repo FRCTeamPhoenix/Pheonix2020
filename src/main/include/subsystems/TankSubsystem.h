@@ -31,8 +31,8 @@ class TankSubsystem : public frc2::SubsystemBase {
         void updateGyro();
 
         //add a new motion profile instance to a drivetrain
-        WPI_TalonSRX* getFrontLeft() {return &m_frontLeft;}
-        WPI_TalonSRX* getFrontRight() {return &m_frontRight;}
+        TalonSRX* getFrontLeft() {return &m_frontLeft;}
+        TalonSRX* getFrontRight() {return &m_frontRight;}
     private:
         TankSubsystem();
 
@@ -42,10 +42,8 @@ class TankSubsystem : public frc2::SubsystemBase {
 
         const int TIMEOUT = 10;
 
-        WPI_TalonSRX m_frontLeft = {TALON_FRONT_LEFT};
-        WPI_TalonSRX m_frontRight = {TALON_FRONT_RIGHT};
-        WPI_TalonSRX m_backLeft = {TALON_BACK_LEFT};
-        WPI_TalonSRX m_backRight = {TALON_BACK_RIGHT};
-
-        frc::DifferentialDrive m_drive = frc::DifferentialDrive(m_frontLeft, m_frontRight);
+        TalonSRX m_frontLeft = {TALON_FRONT_LEFT};
+        TalonSRX m_frontRight = {TALON_FRONT_RIGHT};
+        TalonSRX m_backLeft = {TALON_BACK_LEFT};
+        TalonSRX m_backRight = {TALON_BACK_RIGHT};
 };

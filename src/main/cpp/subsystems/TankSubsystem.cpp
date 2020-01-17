@@ -20,13 +20,13 @@ void TankSubsystem::init(){
 
     //invert left side motion (is it going the right way ?)
     m_frontLeft.SetInverted(true);
-    m_backLeft.SetInverted(false);
+    m_backLeft.SetInverted(true);
 
     //change output to match +
-    m_frontRight.SetSensorPhase(true);
+    m_frontRight.SetSensorPhase(false);
 
     //invert the right side motion
-    m_frontRight.SetInverted(true);
+    m_frontRight.SetInverted(false);
     m_backRight.SetInverted(false);
 
     //prevent the motors from bumping small percents to a minimum
@@ -43,15 +43,16 @@ void TankSubsystem::init(){
     
     m_frontLeft.Config_kP(0, 1.0);
     //(75% X 1023) / (speed at 75%)
-    //left = 400
-    m_frontLeft.Config_kF(0, (.75 * 1023.0) / 400.0);
+    //left = 1092
+    m_frontLeft.Config_kF(0, (.75 * 1023.0) / 1092.0);
     m_frontRight.Config_kP(0, 1.0);
-    //right = 276
-    m_frontRight.Config_kF(0, (.75 * 1023.0) / 276.0);
+    //right = 957
+    m_frontRight.Config_kF(0, (.75 * 1023.0) / 957.0);
 }
 
 void TankSubsystem::setSpeed(const double& left, const double& right){
-    m_drive.TankDrive(left, right);
+    m_frontLeft.Set(ControlMode::PercentOutput, left);
+    m_frontRight.Set(ControlMode::PercentOutput, right);
 }
 void TankSubsystem::setHighGear() {
     PCMHandler::getInstance()->setHighGear();

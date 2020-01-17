@@ -137,7 +137,9 @@ public:
 
     bool IsFinished() override;
 private:
-    ctre::phoenix::motion::BufferedTrajectoryPointStream* m_stream = nullptr;
+    ctre::phoenix::motion::BufferedTrajectoryPointStream* m_leftStream = nullptr;
+    ctre::phoenix::motion::BufferedTrajectoryPointStream* m_rightStream = nullptr;
 
-    WPI_TalonSRX* m_frontLeft;
+    TalonSRX* m_frontLeft;
+    TalonSRX* m_frontRight;
 };

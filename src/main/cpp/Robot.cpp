@@ -14,6 +14,7 @@
 
 void Robot::RobotInit() {
     TankSubsystem::getInstance()->init();
+    TankSubsystem::getInstance()->zeroEncoders();
 }
 
 /**
@@ -60,9 +61,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
-    TankSubsystem::getInstance()->zeroEncoders();
     TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
-
     frc2::CommandScheduler::GetInstance().Schedule(&m_profile);
 }
 
