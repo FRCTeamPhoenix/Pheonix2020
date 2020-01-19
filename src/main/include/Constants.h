@@ -30,3 +30,8 @@ const int SOLENOID_LOW_GEAR = 7;
 //slots for the two different pid configs on talons
 const int PID_VELOCITY_SLOT = 0;
 const int PID_HEADING_SLOT = 1;
+
+//used for the aim adjust
+const float AIM_P = 0.05f;
+const float AIM_FF = 0.05f;
+const float AIM_THRESH = 0.5f;

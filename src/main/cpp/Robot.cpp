@@ -9,6 +9,7 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc2/command/button/JoystickButton.h>
 #include "subsystems/TankSubsystem.h"
 #include "PCMHandler.h"
 
@@ -49,7 +50,13 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-    PCMHandler::getInstance()->turnOn();
+    //make robot stop
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+
+    //use a lambda to fix a bug
+    frc2::Button button{[&] { return m_driverJoystick.GetRawButton(1); }};
+
+    button.WhenPressed(AimAdjust());
     // frc2::CommandScheduler::GetInstance()->AddCommand();
 }
 
@@ -57,19 +64,18 @@ void Robot::TeleopInit() {
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
-
 }
 
 void Robot::TestInit() {
     TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
-    frc2::CommandScheduler::GetInstance().Schedule(&m_profile);
+    //frc2::CommandScheduler::GetInstance().Schedule(&m_profile);
 }
 
 /**
  * This function is called periodically during test mode.
  */
 void Robot::TestPeriodic() {
-    //TankSubsystem::getInstance()->setSpeed(0.75, 0.75);
+    TankSubsystem::getInstance()->setSpeed(0.75, 0.75);
 }
 
 #ifndef RUNNING_FRC_TESTS

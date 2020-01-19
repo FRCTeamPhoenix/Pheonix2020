@@ -9,8 +9,10 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
+#include <frc/Joystick.h>
 
 #include "commands/MotionProfile.h"
+#include "commands/AimAdjust.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -27,4 +29,6 @@ class Robot : public frc::TimedRobot {
 
 private:
   MotionProfile m_profile;
+  
+  frc::Joystick m_driverJoystick{0};
 };
