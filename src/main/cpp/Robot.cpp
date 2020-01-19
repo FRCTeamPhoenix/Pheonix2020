@@ -57,6 +57,7 @@ void Robot::TeleopInit() {
     frc2::Button button{[&] { return m_driverJoystick.GetRawButton(1); }};
 
     button.WhenPressed(AimAdjust()).CancelWhenPressed(&m_defaultDrive).WhenReleased(&m_defaultDrive);
+    frc2::CommandScheduler::GetInstance().Schedule(&m_defaultDrive);
     // frc2::CommandScheduler::GetInstance()->AddCommand();
 }
 
