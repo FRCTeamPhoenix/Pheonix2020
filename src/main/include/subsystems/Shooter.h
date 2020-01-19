@@ -1,23 +1,31 @@
 #pragma once
 
-// Specifically using ControlMode, FeedbackDevice, and WPI_TalonSRX
 #include <ctre/Phoenix.h>
 
 #include <frc2/command/Subsystem.h>
-#include <frc/Timer.h>
+#include <frc2/command/SubsystemBase.h>
 
-class Shooter {
+class Shooter : public frc2::SubsystemBase {
     public:
-        WPI_TalonSRX shooter;
-        const int INTAKE = 0;
-        const int OUTTAKE = 1;
-        Shooter();
+        static Shooter* getInstance() {
+            static Shooter instance;
+            return &instance;
+        }
+
+        Shooter(Shooter const&) = delete;
+        void operator = (Shooter const&) = delete;
         void initialize();
+        void setShooterSpeed(const double& top, const double& bottom);
+        void setLoaderSpeed(const double& left, const double& right);
+        void setGrabberSpeed(const double& front);
         void end();
-        void intake();
-        void outtake();
-        void outputToSmartDashboard();
     
     private:
-        frc::Timer timer = new Timer();
+        Shooter();
+        const int TIMEOUT = 10;
+        TalonSRX m_shooterTop;
+        TalonSRX m_shooterBottom;
+        TalonSRX m_loaderLeft;
+        TalonSRX m_loaderRight;
+        TalonSRX m_grabber;
 }
