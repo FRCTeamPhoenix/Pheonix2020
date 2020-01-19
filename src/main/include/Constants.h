@@ -33,5 +33,18 @@ const int PID_HEADING_SLOT = 1;
 
 //used for the aim adjust
 const float AIM_P = 0.05f;
-const float AIM_FF = 0.05f;
+const float AIM_DIST_P = 0.04f;
+const float AIM_FF = 0.01f;
 const float AIM_THRESH = 0.5f;
+
+//info about the target and camera for distance calculations
+const float TARGET_HEIGHT_IN = 33.0f;
+const float CAMERA_HEIGHT_IN = 7.5f;
+const float CAMERA_ANGLE = 0.0f;
+const float TARGET_DIST_IN = 100.0f;
+
+//conversion values
+const float TICKS_PER_REV = 4096.0f;
+const float WHEEL_DIMATER_IN = 6;
+const float PI = 3.1415;
+const float TICKS_TO_DISTANCE = WHEEL_DIMATER_IN * PI / TICKS_PER_REV;

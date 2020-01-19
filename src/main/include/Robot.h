@@ -12,6 +12,7 @@
 #include <frc/Joystick.h>
 
 #include "commands/MotionProfile.h"
+#include "commands/DefaultDrive.h"
 #include "commands/AimAdjust.h"
 
 class Robot : public frc::TimedRobot {
@@ -29,6 +30,6 @@ class Robot : public frc::TimedRobot {
 
 private:
   MotionProfile m_profile;
-  
+  DefaultDrive m_defaultDrive;
   frc::Joystick m_driverJoystick{0};
 };

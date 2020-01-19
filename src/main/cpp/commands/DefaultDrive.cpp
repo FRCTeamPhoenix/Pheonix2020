@@ -4,20 +4,18 @@ DefaultDrive::DefaultDrive() {
     AddRequirements({TankSubsystem::getInstance()});
 }
 
-void DefaultDrive::initialize() {}
+void DefaultDrive::Initialize() {
 
-void DefaultDrive::execute() {
-    TankSubsystem::getInstance()->setSpeed(m_driverJoystick.GetX(), m_driverJoystick.GetY());
 }
 
-void DefaultDrive::end() {
+void DefaultDrive::Execute() {
+    TankSubsystem::getInstance()->setSpeed(-m_driverJoystick.GetRawAxis(1), -m_driverJoystick.GetRawAxis(3));
+}
+
+void DefaultDrive::End(bool interrupted) {
     TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
 }
 
-bool DefaultDrive::isFinished() {
+bool DefaultDrive::IsFinished() {
     return false;
-}
-
-void DefaultDrive::interrupt() {
-    end();
 }

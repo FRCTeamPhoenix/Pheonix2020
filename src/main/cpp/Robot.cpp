@@ -56,7 +56,7 @@ void Robot::TeleopInit() {
     //use a lambda to fix a bug
     frc2::Button button{[&] { return m_driverJoystick.GetRawButton(1); }};
 
-    button.WhenPressed(AimAdjust());
+    button.WhenPressed(AimAdjust()).CancelWhenPressed(&m_defaultDrive).WhenReleased(&m_defaultDrive);
     // frc2::CommandScheduler::GetInstance()->AddCommand();
 }
 
@@ -64,18 +64,18 @@ void Robot::TeleopInit() {
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
+
+
 }
 
 void Robot::TestInit() {
     TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
-    //frc2::CommandScheduler::GetInstance().Schedule(&m_profile);
 }
 
 /**
  * This function is called periodically during test mode.
  */
 void Robot::TestPeriodic() {
-    TankSubsystem::getInstance()->setSpeed(0.75, 0.75);
 }
 
 #ifndef RUNNING_FRC_TESTS

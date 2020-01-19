@@ -9,11 +9,13 @@
 class DefaultDrive : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive> {
     public:
         DefaultDrive();
-        void initialize();
-        void execute();
-        void end();
-        bool isFinished();
-        void interrupt();
+        void Initialize() override;
+
+        void Execute() override;
+
+        void End(bool interrupted) override;
+
+        bool IsFinished() override;
     
     private:
         frc::Joystick m_driverJoystick{0};

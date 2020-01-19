@@ -9,17 +9,21 @@ AimAdjust::AimAdjust(){
 }
 
 void AimAdjust::Initialize() {
-    std::cout<<"started aim"<<std::endl;
 }
 
 void AimAdjust::Execute() {
     //adjust if the target is in view
     if(Limelight::seesTarget()){
         float err = Limelight::getTx();
+        float targetCurrentDist = (TARGET_HEIGHT_IN - CAMERA_HEIGHT_IN) / tan((Limelight::getTy() + CAMERA_ANGLE) * PI / 180.0f);
+        float distErr = targetCurrentDist - TARGET_DIST_IN;
 
         float speed = AIM_P * err + (err > AIM_THRESH ? AIM_FF : 0.0) + (err < -AIM_THRESH ? -AIM_FF : 0.0);
+        float distSpeed = 0.0f;
 
-        TankSubsystem::getInstance()->setSpeed(speed, -speed);
+        distSpeed = AIM_DIST_P * distErr;
+
+        TankSubsystem::getInstance()->setSpeed(distSpeed + speed, distSpeed -speed);
     }
 }
 
