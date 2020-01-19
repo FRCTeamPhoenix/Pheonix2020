@@ -9,8 +9,14 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc2/command/button/JoystickButton.h>
+#include "subsystems/TankSubsystem.h"
+#include "PCMHandler.h"
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+    TankSubsystem::getInstance()->init();
+    TankSubsystem::getInstance()->zeroEncoders();
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -20,7 +26,10 @@ void Robot::RobotInit() {}
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
+void Robot::RobotPeriodic() { 
+    frc2::CommandScheduler::GetInstance().Run();
+    TankSubsystem::getInstance()->updateGyro();
+}
 
 /**
  * This function is called once each time the robot enters Disabled mode. You
@@ -41,17 +50,33 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+    //make robot stop
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+
+    //use a lambda to fix a bug
+    frc2::Button button{[&] { return m_driverJoystick.GetRawButton(1); }};
+
+    button.WhenPressed(AimAdjust()).CancelWhenPressed(&m_defaultDrive).WhenReleased(&m_defaultDrive);
+    // frc2::CommandScheduler::GetInstance()->AddCommand();
 }
 
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+
+
+}
+
+void Robot::TestInit() {
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+}
 
 /**
  * This function is called periodically during test mode.
  */
-void Robot::TestPeriodic() {}
+void Robot::TestPeriodic() {
+}
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
