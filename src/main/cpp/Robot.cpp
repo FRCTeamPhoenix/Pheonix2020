@@ -6,11 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
+#include "PIDTuner.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+    PIDTuner p;
+    p.init();
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -41,6 +45,7 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+
 }
 
 /**

@@ -1,17 +1,21 @@
 #ifndef PIDTUNER_H
 #define PIDTUNER_H
 
-class PID {
-    float P, I, D, e, s, r, i;
+class PIDTuner {
+    private:
+        double P, I, D, s, r, t, i, l;
+    
     public:
-        PID();
-        void set();
+        PIDTuner();
+        ~PIDTuner();
+        void set_pos();
+        double get_pos();
+        void init();
         void calc();
-        void exec();
         void send();
         void recv();
         void load();
-        void get();
+        void dump();
 };
 
 #endif 
