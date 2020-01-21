@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include <frc/I2C.h>
+#include <frc/util/Color.h>
+
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants.  This should not be used for any other
@@ -26,6 +29,13 @@ const int TALON_BACK_RIGHT = 2;
 const int PCM_CAN_ID = 11;
 const int SOLENOID_HIGH_GEAR = 6;
 const int SOLENOID_LOW_GEAR = 7;
+
+//ports for sensors
+const auto COLOR_SENSOR_PORT = frc::I2C::Port::kOnboard;
+const frc::Color BLUE_TARGET = frc::Color(0.143, 0.427, 0.429);
+const frc::Color GREEN_TARGET = frc::Color(0.197, 0.561, 0.240);
+const frc::Color RED_TARGET = frc::Color(0.561, 0.232, 0.114);
+const frc::Color YELLOW_TARGET = frc::Color(0.361, 0.524, 0.113);
 
 //slots for the two different pid configs on talons
 const int PID_VELOCITY_SLOT = 0;

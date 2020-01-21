@@ -29,6 +29,15 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() { 
     frc2::CommandScheduler::GetInstance().Run();
     TankSubsystem::getInstance()->updateGyro();
+
+    //update color sensor values
+    frc::Color detectedColor = m_colorSensor.getDetectedColor();
+    std::string approxColor = m_colorSensor.getApproximateColor();
+
+    frc::SmartDashboard::PutNumber("R", detectedColor.red);
+    frc::SmartDashboard::PutNumber("G", detectedColor.green);
+    frc::SmartDashboard::PutNumber("B", detectedColor.blue);
+    frc::SmartDashboard::PutString("Detected Color", approxColor);
 }
 
 /**
@@ -58,7 +67,6 @@ void Robot::TeleopInit() {
 
     button.WhenPressed(AimAdjust()).CancelWhenPressed(&m_defaultDrive).WhenReleased(&m_defaultDrive);
     frc2::CommandScheduler::GetInstance().Schedule(&m_defaultDrive);
-    // frc2::CommandScheduler::GetInstance()->AddCommand();
 }
 
 /**

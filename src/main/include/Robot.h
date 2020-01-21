@@ -15,6 +15,8 @@
 #include "commands/DefaultDrive.h"
 #include "commands/AimAdjust.h"
 
+#include "ColorSensor.h"
+
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -32,4 +34,6 @@ private:
   MotionProfile m_profile;
   DefaultDrive m_defaultDrive;
   frc::Joystick m_driverJoystick{0};
+
+  ColorSensor m_colorSensor;
 };
