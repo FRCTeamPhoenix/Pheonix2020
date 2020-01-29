@@ -17,11 +17,7 @@ class Shooter : public frc2::SubsystemBase {
         void initialize();
         void setShooterSpeed(const double& speed);
         void setLoaderSpeed(const double& speed);
-        void setGrabberSpeed(const double& speed);
-        void grab();
-        void reload();
-        void shootLow();
-        void shootHigh();
+        void setIntakeSpeed(const double& speed);
         void stop();
     
     private:
@@ -31,5 +27,5 @@ class Shooter : public frc2::SubsystemBase {
         TalonSRX m_shooterBottom;
         TalonSRX m_loaderLeft;
         TalonSRX m_loaderRight;
-        TalonSRX m_grabber;
+        TalonSRX m_intake;
 }
