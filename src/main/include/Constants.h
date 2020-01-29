@@ -16,3 +16,10 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+
+// Talon IDs for shooter motors
+const int TALON_SHOOTER_TOP = 5;
+const int TALON_SHOOTER_BOTTOM = 6;
+const int TALON_LOADER_LEFT = 7;
+const int TALON_LOADER_RIGHT = 8;
+const int TALON_INTAKE = 9;

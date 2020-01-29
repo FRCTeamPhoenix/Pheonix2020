@@ -1,9 +1,9 @@
 #pragma once
 
 #include <ctre/Phoenix.h>
-
-#include <frc2/command/Subsystem.h>
 #include <frc2/command/SubsystemBase.h>
+
+#include "Constants.h"
 
 class Shooter : public frc2::SubsystemBase {
     public:
@@ -22,10 +22,9 @@ class Shooter : public frc2::SubsystemBase {
     
     private:
         Shooter();
-        // const int TIMEOUT = 10;
-        TalonSRX m_shooterTop;
-        TalonSRX m_shooterBottom;
-        TalonSRX m_loaderLeft;
-        TalonSRX m_loaderRight;
-        TalonSRX m_intake;
-}
+        TalonSRX m_shooterTop = {TALON_SHOOTER_TOP};
+        TalonSRX m_shooterBottom = {TALON_SHOOTER_BOTTOM};
+        TalonSRX m_loaderLeft = {TALON_LOADER_LEFT};
+        TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
+        TalonSRX m_intake = {TALON_INTAKE};
+};
