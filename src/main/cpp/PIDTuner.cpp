@@ -9,25 +9,25 @@ using namespace std;
 using namespace nlohmann;
 
 PIDTuner::PIDTuner() {
-    s = 0.0, r = 0.0, l = 0.0, i = 0.0, t = 0.02
+    s = 0.0, r = 0.0, l = 0.0, i = 0.0, t = 0.02;
 }
 
-PIDTuner::init() {
+void PIDTuner::init() {
     load();
     send();
     function<void()> f = [this]() { this->recv(); };
     frc::SmartDashboard::PostListenerTask(f);
 }
 
-PIDTuner::set_pos(double se) {
+void PIDTuner::set_pos(double se) {
     s = se;
 }
 
-PIDTuner::get_pos() {
+double PIDTuner::get_pos() {
     return s;
 }
 
-PIDTuner::calc() {
+void PIDTuner::calc() {
     double p = s - get_pos();
     i += p * t;
     double d = (p - l) / t;
@@ -35,21 +35,21 @@ PIDTuner::calc() {
     l = p;
 }
 
-PIDTuner::send() {
+void PIDTuner::send() {
     frc::SmartDashboard::PutNumber("PID_P", P);
     frc::SmartDashboard::PutNumber("PID_I", I);
     frc::SmartDashboard::PutNumber("PID_D", D);
     frc::SmartDashboard::UpdateValues();
 }
 
-PIDTuner::recv() {
+void PIDTuner::recv() {
     P = frc::SmartDashboard::GetNumber("PID_P", P);
     I = frc::SmartDashboard::GetNumber("PID_I", I);
     D = frc::SmartDashboard::GetNumber("PID_D", D);
     dump(P, I, D);
 }
 
-PIDTuner::dump(double a, double b, double c) {
+void PIDTuner::dump(double a, double b, double c) {
     json j = {
         {"P", a},
         {"I", b},
@@ -61,7 +61,7 @@ PIDTuner::dump(double a, double b, double c) {
     f.close();
 }
 
-PIDTuner::load() {
+void PIDTuner::load() {
     json j;
     string q, y = "";
     ifstream f;

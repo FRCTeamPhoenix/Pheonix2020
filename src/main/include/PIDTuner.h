@@ -8,14 +8,14 @@ class PIDTuner {
     public:
         PIDTuner();
         ~PIDTuner();
-        void set_pos();
+        void set_pos(double se);
         double get_pos();
         void init();
         void calc();
         void send();
         void recv();
         void load();
-        void dump();
+        void dump(double P, double I, double D);
 };
 
 #endif 
