@@ -1,7 +1,8 @@
 #pragma once
 
-#include <ctre/Phoenix.h>
+#include <frc/DigitalInput.h>
 #include <frc2/command/SubsystemBase.h>
+#include <ctre/Phoenix.h>
 
 #include "Constants.h"
 
@@ -18,6 +19,7 @@ class Shooter : public frc2::SubsystemBase {
         void setShooterSpeed(const double& speed);
         void setLoaderSpeed(const double& speed);
         void setIntakeSpeed(const double& speed);
+        void execute();
         void stop();
     
     private:
@@ -27,4 +29,5 @@ class Shooter : public frc2::SubsystemBase {
         TalonSRX m_loaderLeft = {TALON_LOADER_LEFT};
         TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
         TalonSRX m_intake = {TALON_INTAKE};
+        frc::DigitalInput m_ballSensor{LOADER_SENSOR};
 };

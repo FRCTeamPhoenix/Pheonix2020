@@ -1,10 +1,5 @@
 #include "subsystems/Shooter.h"
 
-#include <frc/smartdashboard/SmartDashboard.h>
-
-#include <networktables/NetworkTable.h>
-#include <networktables/NetworkTableInstance.h>
-
 Shooter::Shooter() {}
 
 void Shooter::initialize() {
@@ -23,7 +18,7 @@ void Shooter::initialize() {
     m_loaderLeft.SetInverted(true);
     m_loaderRight.SetInverted(true);
 
-    // 
+    // Configure nominal output for motors
     m_shooterTop.ConfigNominalOutputForward(0);
     m_shooterTop.ConfigNominalOutputReverse(0);
     m_shooterBottom.ConfigNominalOutputForward(0);
@@ -63,6 +58,18 @@ void Shooter::setLoaderSpeed(const double& speed) {
 
 void Shooter::setIntakeSpeed(const double& speed) {
     m_intake.Set(ControlMode::PercentOutput, speed);
+}
+
+void Shooter::execute() {
+    if (!m_ballSensor.Get() /* And button is pressed */) {
+        setLoaderSpeed(0.1);
+        setShooterSpeed(0.75);
+    } else if (!m_ballSensor.Get()) {
+        setLoaderSpeed(0.1);
+    } else {
+        setLoaderSpeed(0);
+        setShooterSpeed(0);
+    }
 }
 
 void Shooter::stop() {
