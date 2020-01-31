@@ -25,4 +25,4 @@ const int TALON_LOADER_RIGHT = 8;
 const int TALON_INTAKE = 9;
 
 // Optical Sensor DigitalInput ID
-const int LOADER_SENSOR = 0;
+const int INPUT_LOADER_SENSOR = 0;
