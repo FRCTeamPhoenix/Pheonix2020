@@ -9,11 +9,27 @@ TankSubsystem::TankSubsystem() {
 
 void TankSubsystem::init(){
     //switch what sensor we want to feedback
-    m_frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, TIMEOUT);
-    m_frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, TIMEOUT);
+    //left side should use velocity
+    m_frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, PID_VELOCITY_SLOT);
+    //right side should use sum of the two sides
+    m_frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::SensorSum, PID_VELOCITY_SLOT);
+    //also should use remote sensor 1 to get heading
+    m_frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::RemoteSensor1, PID_HEADING_SLOT);
+
+    //remote sensor 0 should be the other device's quad encoder
+    m_frontRight.ConfigRemoteFeedbackFilter(m_frontLeft.GetDeviceID(), RemoteSensorSource::RemoteSensorSource_TalonSRX_SelectedSensor, 0); 
+    //remote sensor 1 should be the imu
+    m_frontRight.ConfigRemoteFeedbackFilter(m_imu.GetDeviceNumber(), RemoteSensorSource::RemoteSensorSource_Pigeon_Yaw, 1);
+
+    //use the sum of the two sensors to determine distance
+    m_frontRight.ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, FeedbackDevice::QuadEncoder); //this side
+    m_frontRight.ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, FeedbackDevice::RemoteSensor0); //other side
     
-    m_backLeft.Follow(m_frontLeft);
-    m_backRight.Follow(m_frontRight);
+    //set the aux PID polarity (is it rotating the right way?)
+    m_frontRight.ConfigAuxPIDPolarity(false);
+
+    m_backLeft.Follow(m_frontLeft, FollowerType_PercentOutput);
+    m_backRight.Follow(m_frontRight, FollowerType_PercentOutput);
 
     //change output to match + (input = output ?)
     m_frontLeft.SetSensorPhase(false);
@@ -30,24 +46,44 @@ void TankSubsystem::init(){
     m_backRight.SetInverted(false);
 
     //prevent the motors from bumping small percents to a minimum
-    m_frontLeft.ConfigNominalOutputForward(0, TIMEOUT);
-	m_frontLeft.ConfigNominalOutputReverse(0, TIMEOUT);
-	m_frontRight.ConfigNominalOutputForward(0, TIMEOUT);
-	m_frontRight.ConfigNominalOutputReverse(0, TIMEOUT);
+    m_frontLeft.ConfigNominalOutputForward(0);
+	m_frontLeft.ConfigNominalOutputReverse(0);
+	m_frontRight.ConfigNominalOutputForward(0);
+	m_frontRight.ConfigNominalOutputReverse(0);
+
+    //set it for low speed control
+    m_frontLeft.ConfigNeutralDeadband(0.001);
+    m_frontRight.ConfigNeutralDeadband(0.001);
 
     //allow us to use the full motor power without a cap
-    m_frontLeft.ConfigPeakOutputForward(1.0, TIMEOUT);
-	m_frontLeft.ConfigPeakOutputReverse(-1.0, TIMEOUT);
-	m_frontRight.ConfigPeakOutputForward(1.0, TIMEOUT);
-    m_frontRight.ConfigPeakOutputReverse(-1.0, TIMEOUT);
+    m_frontLeft.ConfigPeakOutputForward(1.0);
+	m_frontLeft.ConfigPeakOutputReverse(-1.0);
+	m_frontRight.ConfigPeakOutputForward(1.0);
+    m_frontRight.ConfigPeakOutputReverse(-1.0);
     
-    m_frontLeft.Config_kP(0, 1.0);
+    //m_frontLeft.Config_kP(0, 0.25);
     //(75% X 1023) / (speed at 75%)
     //left = 1092
-    m_frontLeft.Config_kF(0, (.75 * 1023.0) / 1092.0);
-    m_frontRight.Config_kP(0, 1.0);
+    //m_frontLeft.Config_kF(0, (.75 * 1023.0) / 1092.0);
+
+    //configure only the front right for motion profile
+    
+    //primary PID loop
+    m_frontRight.Config_kP(PID_VELOCITY_SLOT, 0.25);
+    m_frontRight.Config_kI(PID_VELOCITY_SLOT, 0.0);
+    m_frontRight.Config_kD(PID_VELOCITY_SLOT, 0.0);
     //right = 957
-    m_frontRight.Config_kF(0, (.75 * 1023.0) / 957.0);
+    m_frontRight.Config_kF(PID_VELOCITY_SLOT, (.75 * 1023.0) / 957.0); //minimum speed
+    m_frontRight.Config_IntegralZone(PID_VELOCITY_SLOT, 400); //allowable error
+    m_frontRight.ConfigClosedLoopPeakOutput(PID_VELOCITY_SLOT, 1.0); //max percent output
+    //secondary PID loop
+    m_frontRight.Config_kP(PID_HEADING_SLOT, 1.0);
+    m_frontRight.Config_kI(PID_HEADING_SLOT, 0.0);
+    m_frontRight.Config_kD(PID_HEADING_SLOT, 0.0);
+    //right = 957
+    m_frontRight.Config_kF(PID_HEADING_SLOT, 0.0);
+    m_frontRight.Config_IntegralZone(PID_HEADING_SLOT, 1); //allowable error
+    m_frontRight.ConfigClosedLoopPeakOutput(PID_HEADING_SLOT, 0.5); //max percent output
 }
 
 void TankSubsystem::setSpeed(const double& left, const double& right){
@@ -68,31 +104,24 @@ void TankSubsystem::zeroEncoders(){
     
 }
 
+void TankSubsystem::zeroGyro(){
+    m_imu.SetYaw(0.0);
+}
+
 void TankSubsystem::updateGyro(){
     
     //update the values
-    frc::SmartDashboard::PutNumber("Gyro X", to180Scale((int)m_imu.GetAngleX()));
-    frc::SmartDashboard::PutNumber("Gyro Y", to180Scale((int)m_imu.GetAngleY()));
-    frc::SmartDashboard::PutNumber("Gyro Z", to180Scale((int)m_imu.GetAngleZ()));
+    double ypr[3];
+    m_imu.GetYawPitchRoll(ypr);
 
-    frc::SmartDashboard::PutNumber("Accel X", m_imu.GetAccelX());
-    frc::SmartDashboard::PutNumber("Accel Y", m_imu.GetAccelY());
-    frc::SmartDashboard::PutNumber("Accel Z", m_imu.GetAccelZ());
+    frc::SmartDashboard::PutNumber("Gyro Yaw", (int)ypr[0]);
+    frc::SmartDashboard::PutNumber("Gyro Pitch", (int)ypr[1]);
+    frc::SmartDashboard::PutNumber("Gyro Roll", (int)ypr[2]);
 
-    //calibrate gyro if button pressed
-    if(frc::SmartDashboard::GetBoolean("GyroCalibrate",false)){
-        m_imu.Calibrate();
-    }
-
-    if(frc::SmartDashboard::GetBoolean("GyroReset",false)){
-        m_imu.Reset();
+    if(frc::SmartDashboard::GetBoolean("GyroZero",false)){
+        zeroGyro();
     }
 
     //reset the values
-    frc::SmartDashboard::PutBoolean("GyroCalibrate", false);
-    frc::SmartDashboard::PutBoolean("GyroReset", false);
-}
-
-int TankSubsystem::to180Scale(int original){
-    return original > 0 ? (original + 180) % 360 - 180 : 180 - (abs(original) + 180) % 360; 
+    frc::SmartDashboard::PutBoolean("GyroZero", false);
 }

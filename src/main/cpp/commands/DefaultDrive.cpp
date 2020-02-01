@@ -9,6 +9,7 @@ void DefaultDrive::Initialize() {
 }
 
 void DefaultDrive::Execute() {
+    std::cout<<"Drive"<<std::endl;
     TankSubsystem::getInstance()->setSpeed(-m_driverJoystick.GetRawAxis(1), -m_driverJoystick.GetRawAxis(3));
 }
 
