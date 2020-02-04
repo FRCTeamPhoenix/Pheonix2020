@@ -16,3 +16,7 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+
+// Joystick ports and button IDs
+const int DRIVER_CONTROL = 0;
+const int OPERATOR_CONTROL = 1;
