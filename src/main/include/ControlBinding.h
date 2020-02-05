@@ -8,12 +8,17 @@
 
 #include "Constants.h"
 
+enum class JoystickType {
+    DRIVER, OPERATOR
+};
+
 enum class ControlType {
     AXIS, BUTTON
 };
 
 struct ControlData {
-    ControlType type;
+    JoystickType driver;
+    ControlType control;
     int id;
 };
 
@@ -21,7 +26,7 @@ class ControlBinding {
     public:
         ControlBinding();
         void initialize();
-        bool getControlValue(std::string control);
+        bool getControlStatus(std::string control, double deadzone = 0);
 
     private:
         frc::Joystick m_driverJoystick{DRIVER_CONTROL};
