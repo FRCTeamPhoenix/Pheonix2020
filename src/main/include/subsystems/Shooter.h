@@ -16,6 +16,7 @@ class Shooter : public frc2::SubsystemBase {
         Shooter(Shooter const&) = delete;
         void operator = (Shooter const&) = delete;
         void initialize();
+        void setFlywheelSpeed(const double& speed);
         void setShooterSpeed(const double& speed);
         void setLoaderSpeed(const double& speed);
         void setIntakeSpeed(const double& speed);
@@ -24,10 +25,13 @@ class Shooter : public frc2::SubsystemBase {
     
     private:
         Shooter();
+        TalonSRX m_flywheelLeft = {TALON_FLYWHEEL_LEFT};
+        TalonSRX m_flywheelRight = {TALON_FLYWHEEL_RIGHT};
         TalonSRX m_shooterTop = {TALON_SHOOTER_TOP};
         TalonSRX m_shooterBottom = {TALON_SHOOTER_BOTTOM};
         TalonSRX m_loaderLeft = {TALON_LOADER_LEFT};
         TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
         TalonSRX m_intake = {TALON_INTAKE};
+        TalonSRX m_intakeTilt = {TALON_INTAKE_TILT};
         frc::DigitalInput m_ballSensor{INPUT_LOADER_SENSOR};
 };

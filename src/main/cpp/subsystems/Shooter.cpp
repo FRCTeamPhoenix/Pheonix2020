@@ -4,21 +4,27 @@ Shooter::Shooter() {}
 
 void Shooter::initialize() {
     // Configure encoders on motors (remove if encoder is absent)
+    m_flywheelLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+    m_flywheelRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     m_shooterTop.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     m_shooterBottom.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     m_loaderLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     m_loaderRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     m_intake.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     
-    // Make sure bottom and top shooter belts go same direction
+    // Make sure corresponding motors spin opposite direction 
+    m_flywheelLeft.SetInverted(true);
+    m_flywheelRight.SetInverted(false);
     m_shooterTop.SetInverted(true);
-    m_shooterBottom.SetInverted(true);
-
-    // Make sure left and right loader belts go same direction
+    m_shooterBottom.SetInverted(false);
     m_loaderLeft.SetInverted(true);
-    m_loaderRight.SetInverted(true);
+    m_loaderRight.SetInverted(false);
 
     // Configure nominal output for motors
+    m_flywheelLeft.ConfigNominalOutputForward(0);
+    m_flywheelLeft.ConfigNominalOutputReverse(0);
+    m_flywheelRight.ConfigNominalOutputForward(0);
+    m_flywheelRight.ConfigNominalOutputReverse(0);
     m_shooterTop.ConfigNominalOutputForward(0);
     m_shooterTop.ConfigNominalOutputReverse(0);
     m_shooterBottom.ConfigNominalOutputForward(0);
@@ -29,8 +35,14 @@ void Shooter::initialize() {
     m_loaderRight.ConfigNominalOutputReverse(0);
     m_intake.ConfigNominalOutputForward(0);
     m_intake.ConfigNominalOutputReverse(0);
+    m_intakeTilt.ConfigNominalOutputForward(0);
+    m_intakeTilt.ConfigNominalOutputReverse(0);
 
     // Configure power limits on motors (change if needed)
+    m_flywheelLeft.ConfigPeakOutputForward(1.0);
+    m_flywheelLeft.ConfigPeakOutputReverse(-1.0);
+    m_flywheelRight.ConfigPeakOutputForward(1.0);
+    m_flywheelRight.ConfigPeakOutputReverse(-1.0);
     m_shooterTop.ConfigPeakOutputForward(1.0);
     m_shooterTop.ConfigPeakOutputReverse(-1.0);
     m_shooterBottom.ConfigPeakOutputForward(1.0);
@@ -41,14 +53,22 @@ void Shooter::initialize() {
     m_loaderRight.ConfigPeakOutputReverse(-1.0);
     m_intake.ConfigPeakOutputForward(1.0);
     m_intake.ConfigPeakOutputReverse(-1.0);
+    m_intakeTilt.ConfigPeakOutputForward(1.0);
+    m_intakeTilt.ConfigPeakOutputReverse(-1.0);
     
+    m_flywheelLeft.Follow(m_flywheelRight);
     m_shooterTop.Follow(m_shooterBottom);
     m_loaderLeft.Follow(m_loaderRight);
 }
 
-void Shooter::setShooterSpeed(const double& speed) {
-    m_shooterTop.Set(ControlMode::Velocity, speed);
-    m_shooterBottom.Set(ControlMode::Velocity, speed);
+void Shooter::setFlywheelSpeed(const double& velocity) {
+    m_flywheelLeft.Set(ContorlMode::Velocity, velocity);
+    m_flywheelRight.Set(ContorlMode::Velocity, velocity);
+}
+
+void Shooter::setShooterSpeed(const double& percent) {
+    m_shooterTop.Set(ControlMode::PercentOutput, percent);
+    m_shooterBottom.Set(ControlMode::PercentOutput, percent);
 }
 
 void Shooter::setLoaderSpeed(const double& speed) {
@@ -56,23 +76,24 @@ void Shooter::setLoaderSpeed(const double& speed) {
     m_loaderRight.Set(ControlMode::MotionMagic, speed);
 }
 
-void Shooter::setIntakeSpeed(const double& speed) {
-    m_intake.Set(ControlMode::PercentOutput, speed);
+void Shooter::setIntakeSpeed(const double& percent) {
+    m_intake.Set(ControlMode::PercentOutput, percent);
 }
 
 void Shooter::execute() {
-    if (!m_ballSensor.Get() /* And button is pressed */) {
-        setLoaderSpeed(0.1);
+    if (!m_ballSensor.Get() /* && shooter button is pressed */) {
+        setFlywheelSpeed(0.75);
         setShooterSpeed(0.75);
+        setLoaderSpeed(0.1);
     } else if (!m_ballSensor.Get()) {
         setLoaderSpeed(0.1);
-    } else {
-        setLoaderSpeed(0);
-        setShooterSpeed(0);
+    } else if (!m_ballSensor.Get() /* && intake  */) {
+        stop();
     }
 }
 
 void Shooter::stop() {
+    setFlywheelSpeed(0);
     setShooterSpeed(0);
     setLoaderSpeed(0);
     setIntakeSpeed(0);

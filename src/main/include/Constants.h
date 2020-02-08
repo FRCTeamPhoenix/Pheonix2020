@@ -18,11 +18,14 @@
  */
 
 // Talon IDs for shooter motors
-const int TALON_SHOOTER_TOP = 5;
-const int TALON_SHOOTER_BOTTOM = 6;
-const int TALON_LOADER_LEFT = 7;
-const int TALON_LOADER_RIGHT = 8;
-const int TALON_INTAKE = 9;
+const int TALON_FLYWHEEL_LEFT = 5;
+const int TALON_FLYWHEEL_RIGHT = 6;
+const int TALON_SHOOTER_TOP = 7;
+const int TALON_SHOOTER_BOTTOM = 8;
+const int TALON_LOADER_LEFT = 9;
+const int TALON_LOADER_RIGHT = 10;
+const int TALON_INTAKE = 11;
+const int TALON_INTAKE_TILT = 12;
 
 // Optical Sensor DigitalInput ID
 const int INPUT_LOADER_SENSOR = 0;
