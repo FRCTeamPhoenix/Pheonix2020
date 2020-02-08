@@ -1,5 +1,7 @@
 #include "subsystems/Shooter.h"
 
+#include "PCMHandler.h"
+
 Shooter::Shooter() {}
 
 void Shooter::initialize() {
@@ -78,6 +80,14 @@ void Shooter::setLoaderSpeed(const double& speed) {
 
 void Shooter::setIntakeSpeed(const double& percent) {
     m_intake.Set(ControlMode::PercentOutput, percent);
+}
+
+void Shooter::activateIntakeTilt() {
+    PCMHandler::getInstance()->activateIntakeTilt();
+}
+
+void Shooter::deactivateIntakeTilt() {
+    PCMHandler::getInstance()->deactivateIntakeTilt();
 }
 
 void Shooter::execute() {

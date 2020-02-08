@@ -38,6 +38,7 @@ const int TALON_INTAKE_TILT = 12;
 const int PCM_CAN_ID = 11;
 const int SOLENOID_HIGH_GEAR = 6;
 const int SOLENOID_LOW_GEAR = 7;
+const int SOLENOID_INTAKE_TILT = 8;
 
 // Sensor ports
 const int INPUT_LOADER_SENSOR = 0;
