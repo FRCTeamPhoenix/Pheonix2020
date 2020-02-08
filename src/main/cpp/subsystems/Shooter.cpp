@@ -1,6 +1,7 @@
 #include "subsystems/Shooter.h"
 
 #include "PCMHandler.h"
+#include 
 
 Shooter::Shooter() {}
 
@@ -63,9 +64,9 @@ void Shooter::initialize() {
     m_loaderLeft.Follow(m_loaderRight);
 }
 
-void Shooter::setFlywheelSpeed(const double& velocity) {
-    m_flywheelLeft.Set(ContorlMode::Velocity, velocity);
-    m_flywheelRight.Set(ContorlMode::Velocity, velocity);
+void Shooter::setFlywheelSpeed(const double& percent) {
+    m_flywheelLeft.Set(ContorlMode::PercentOutput, percent);
+    m_flywheelRight.Set(ContorlMode::PercentOutput, percent);
 }
 
 void Shooter::setShooterSpeed(const double& percent) {
@@ -91,15 +92,18 @@ void Shooter::deactivateIntakeTilt() {
 }
 
 void Shooter::execute() {
-    if (!m_ballSensor.Get() /* && shooter button is pressed */) {
+    if (/* shooter button is pressed */) {
         setFlywheelSpeed(0.75);
         setShooterSpeed(0.75);
         setLoaderSpeed(0.1);
-    } else if (!m_ballSensor.Get()) {
-        setLoaderSpeed(0.1);
-    } else if (!m_ballSensor.Get() /* && intake  */) {
-        stop();
     }
+    if (/* intake button is pressed */) {
+        setIntakeSpeed(0.5);
+    }
+    if (!m_ballSensor.Get()) {
+        setLoaderSpeed(0.1);
+    }
+
 }
 
 void Shooter::stop() {
