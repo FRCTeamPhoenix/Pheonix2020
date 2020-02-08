@@ -2,11 +2,10 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Joystick.h>
 
-class AimAdjust : public frc2::CommandHelper<frc2::CommandBase, AimAdjust>{
+class Turn : public frc2::CommandHelper<frc2::CommandBase, Turn>{
 public:
-    AimAdjust(bool autoVersion = false);
+    Turn(const double& heading);
 
     void Initialize() override;
 
@@ -16,6 +15,5 @@ public:
 
     bool IsFinished() override;
 private:
-    bool m_autoVersion;
-    frc::Joystick m_driverJoystick{0};
+    double m_heading;
 };

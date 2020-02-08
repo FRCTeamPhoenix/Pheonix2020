@@ -25,6 +25,9 @@ const int TALON_BACK_LEFT = 3;
 const int TALON_FRONT_RIGHT = 1;
 const int TALON_BACK_RIGHT = 2;
 
+//ids for the talons
+const int IMU_ID = 0;
+
 //ids for the solenoids
 const int PCM_CAN_ID = 11;
 const int SOLENOID_HIGH_GEAR = 6;
@@ -42,19 +45,29 @@ const int PID_VELOCITY_SLOT = 0;
 const int PID_HEADING_SLOT = 1;
 
 //used for the aim adjust
-const float AIM_P = 0.05f;
-const float AIM_DIST_P = 0.04f;
-const float AIM_FF = 0.01f;
-const float AIM_THRESH = 0.5f;
+const double AIM_P = 0.05;
+const double AIM_DIST_P = 0.03;
+const double AIM_FF = 0.01;
+const double AIM_THRESH = 0.5;
+const double DIST_TRESH = 5.0;
+
+//used for the turning maneuver
+const double TURN_P = 0.02;
+const double TURN_FF = 0.01;
+const double TURN_THRESH = 10.0;
+const double TURN_END_TRESH = 5;
 
 //info about the target and camera for distance calculations
-const float TARGET_HEIGHT_IN = 33.0f;
-const float CAMERA_HEIGHT_IN = 7.5f;
-const float CAMERA_ANGLE = 0.0f;
-const float TARGET_DIST_IN = 100.0f;
+const double TARGET_HEIGHT_IN = 48.0;
+const double CAMERA_HEIGHT_IN = 7.5;
+const double CAMERA_ANGLE = 0.0;
+const double TARGET_DIST_IN = 240.0;
 
 //conversion values
-const float TICKS_PER_REV = 4096.0f;
-const float WHEEL_DIMATER_IN = 6;
-const float PI = 3.1415;
-const float TICKS_TO_DISTANCE = WHEEL_DIMATER_IN * PI / TICKS_PER_REV;
+const double TICKS_PER_REV = 4096.0;
+const double TICKS_PER_IMU_ROTATION = 8192.0;
+const double WHEEL_DIMATER_IN = 6;
+const double DRIVE_TRAIN_WIDTH_IN = 26;
+const double PI = 3.1415;
+const double ROTATIONS_TO_DISTANCE = WHEEL_DIMATER_IN * PI;
+const double TICKS_TO_DISTANCE = ROTATIONS_TO_DISTANCE / TICKS_PER_REV;

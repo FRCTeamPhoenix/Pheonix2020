@@ -10,8 +10,10 @@
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
 #include <frc/Joystick.h>
+#include <frc2/command/SequentialCommandGroup.h>
 
-#include "commands/MotionProfile.h"
+#include "commands/MotionMagic.h"
+#include "commands/Turn.h"
 #include "commands/DefaultDrive.h"
 #include "commands/AimAdjust.h"
 
@@ -31,9 +33,13 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
 private:
-  MotionProfile m_profile;
   DefaultDrive m_defaultDrive;
   frc::Joystick m_driverJoystick{0};
+  AimAdjust m_nonAutoAim{false};
+  frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), Turn(180.0), AimAdjust(true)};
+
+  bool m_buttonPressed = false;
+  int m_counter = 0;
 
   ColorSensor m_colorSensor;
 };
