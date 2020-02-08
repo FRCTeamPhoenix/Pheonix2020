@@ -9,8 +9,13 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
+#include <frc/Joystick.h>
 
-#include "RobotContainer.h"
+#include "commands/MotionProfile.h"
+#include "commands/DefaultDrive.h"
+#include "commands/AimAdjust.h"
+
+#include "ColorSensor.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -22,8 +27,13 @@ class Robot : public frc::TimedRobot {
   void AutonomousPeriodic() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
+  void TestInit() override;
   void TestPeriodic() override;
 
- private:
-  RobotContainer m_container;
+private:
+  MotionProfile m_profile;
+  DefaultDrive m_defaultDrive;
+  frc::Joystick m_driverJoystick{0};
+
+  ColorSensor m_colorSensor;
 };
