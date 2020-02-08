@@ -12,10 +12,12 @@
 #include <frc2/command/button/JoystickButton.h>
 #include "subsystems/TankSubsystem.h"
 #include "PCMHandler.h"
+#include "Limelight.h"
 
 void Robot::RobotInit() {
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
+    Limelight::disableLight();
 }
 
 /**
@@ -54,9 +56,22 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+    TankSubsystem::getInstance()->zeroEncoders();
+    TankSubsystem::getInstance()->zeroGyro();
+
+    m_counter = 0;
+    frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+    //teleop logic
+    if(m_counter == 1){
+        frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
+    }
+
+    m_counter++;
+}
 
 void Robot::TeleopInit() {
     //make robot stop
@@ -85,22 +100,12 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
-    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
-
-    m_counter = 0;
-    frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
 /**
  * This function is called periodically during test mode.
  */
 void Robot::TestPeriodic() {
-    //teleop logic
-    if(m_counter == 1){
-        frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
-    }
-
-    m_counter++;
 }
 
 #ifndef RUNNING_FRC_TESTS

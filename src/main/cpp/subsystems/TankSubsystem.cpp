@@ -32,11 +32,11 @@ void TankSubsystem::init(){
     m_backRight.Follow(m_frontRight, FollowerType_PercentOutput);
 
     //change output to match + (input = output ?)
-    m_frontLeft.SetSensorPhase(false);
+    m_frontLeft.SetSensorPhase(true);
 
     //invert left side motion (is it going the right way ?)
-    m_frontLeft.SetInverted(true);
-    m_backLeft.SetInverted(true);
+    m_frontLeft.SetInverted(false);
+    m_backLeft.SetInverted(false);
 
     //change output to match +
     m_frontRight.SetSensorPhase(false);
@@ -77,12 +77,12 @@ void TankSubsystem::init(){
     m_frontRight.Config_IntegralZone(PID_VELOCITY_SLOT, 400); //allowable error
     m_frontRight.ConfigClosedLoopPeakOutput(PID_VELOCITY_SLOT, 1.0); //max percent output
     //secondary PID loop
-    m_frontRight.Config_kP(PID_HEADING_SLOT, 1.0);
+    m_frontRight.Config_kP(PID_HEADING_SLOT, 0.25);
     m_frontRight.Config_kI(PID_HEADING_SLOT, 0.0);
     m_frontRight.Config_kD(PID_HEADING_SLOT, 0.0);
     //right = 957
     m_frontRight.Config_kF(PID_HEADING_SLOT, 0.0);
-    m_frontRight.Config_IntegralZone(PID_HEADING_SLOT, 1); //allowable error
+    m_frontRight.Config_IntegralZone(PID_HEADING_SLOT, 400); //allowable error
     m_frontRight.ConfigClosedLoopPeakOutput(PID_HEADING_SLOT, 0.5); //max percent output
 }
 
