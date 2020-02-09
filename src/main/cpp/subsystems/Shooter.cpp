@@ -82,6 +82,10 @@ void Shooter::intakePowerCell() {
     setIntakeSpeed(0.5);
 }
 
+void Shooter::loadPowerCell() {
+    setLoaderSpeed(0.1);
+}
+
 void Shooter::activateIntakeTilt() {
     PCMHandler::getInstance()->activateIntakeTilt();
 }

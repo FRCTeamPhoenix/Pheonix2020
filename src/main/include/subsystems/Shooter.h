@@ -21,6 +21,7 @@ class Shooter : public frc2::SubsystemBase {
         void setLoaderSpeed(const double& speed);
         void setIntakeSpeed(const double& speed);
         void intakePowerCell();
+        void loadPowerCell();
         void activateIntakeTilt();
         void deactivateIntakeTilt();
         void execute();
