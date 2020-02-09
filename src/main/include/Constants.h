@@ -20,6 +20,10 @@
  * they are needed.
  */
 
+// Joystick IDs
+const int DRIVER_JOYSTICK = 0;
+const int OPERATOR_JOYSTICK = 1;
+
 // Talon IDs
 const int TALON_FRONT_LEFT = 1;
 const int TALON_FRONT_RIGHT = 2;

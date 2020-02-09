@@ -1,7 +1,6 @@
 #include "subsystems/Shooter.h"
 
 #include "PCMHandler.h"
-#include 
 
 Shooter::Shooter() {}
 
@@ -38,8 +37,6 @@ void Shooter::initialize() {
     m_loaderRight.ConfigNominalOutputReverse(0);
     m_intake.ConfigNominalOutputForward(0);
     m_intake.ConfigNominalOutputReverse(0);
-    m_intakeTilt.ConfigNominalOutputForward(0);
-    m_intakeTilt.ConfigNominalOutputReverse(0);
 
     // Configure power limits on motors (change if needed)
     m_flywheelLeft.ConfigPeakOutputForward(1.0);
@@ -56,8 +53,6 @@ void Shooter::initialize() {
     m_loaderRight.ConfigPeakOutputReverse(-1.0);
     m_intake.ConfigPeakOutputForward(1.0);
     m_intake.ConfigPeakOutputReverse(-1.0);
-    m_intakeTilt.ConfigPeakOutputForward(1.0);
-    m_intakeTilt.ConfigPeakOutputReverse(-1.0);
     
     m_flywheelLeft.Follow(m_flywheelRight);
     m_shooterTop.Follow(m_shooterBottom);
@@ -65,8 +60,8 @@ void Shooter::initialize() {
 }
 
 void Shooter::setFlywheelSpeed(const double& percent) {
-    m_flywheelLeft.Set(ContorlMode::PercentOutput, percent);
-    m_flywheelRight.Set(ContorlMode::PercentOutput, percent);
+    m_flywheelLeft.Set(ControlMode::PercentOutput, percent);
+    m_flywheelRight.Set(ControlMode::PercentOutput, percent);
 }
 
 void Shooter::setShooterSpeed(const double& percent) {
@@ -83,27 +78,16 @@ void Shooter::setIntakeSpeed(const double& percent) {
     m_intake.Set(ControlMode::PercentOutput, percent);
 }
 
+void Shooter::intakePowerCell() {
+    setIntakeSpeed(0.5);
+}
+
 void Shooter::activateIntakeTilt() {
     PCMHandler::getInstance()->activateIntakeTilt();
 }
 
 void Shooter::deactivateIntakeTilt() {
     PCMHandler::getInstance()->deactivateIntakeTilt();
-}
-
-void Shooter::execute() {
-    if (/* shooter button is pressed */) {
-        setFlywheelSpeed(0.75);
-        setShooterSpeed(0.75);
-        setLoaderSpeed(0.1);
-    }
-    if (/* intake button is pressed */) {
-        setIntakeSpeed(0.5);
-    }
-    if (!m_ballSensor.Get()) {
-        setLoaderSpeed(0.1);
-    }
-
 }
 
 void Shooter::stop() {
