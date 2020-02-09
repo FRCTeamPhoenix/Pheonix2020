@@ -36,5 +36,5 @@ class Shooter : public frc2::SubsystemBase {
         TalonSRX m_loaderLeft = {TALON_LOADER_LEFT};
         TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
         TalonSRX m_intake = {TALON_INTAKE};
-        frc::DigitalInput m_ballSensor{INPUT_LOADER_SENSOR};
+        frc::DigitalInput m_ballSensor{LOADER_SENSOR_PORT};
 };

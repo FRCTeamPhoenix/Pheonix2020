@@ -45,7 +45,7 @@ const int SOLENOID_LOW_GEAR = 7;
 const int SOLENOID_INTAKE_TILT = 8;
 
 // Sensor ports
-const int INPUT_LOADER_SENSOR = 0;
+const int LOADER_SENSOR_PORT = 0;
 const auto COLOR_SENSOR_PORT = frc::I2C::Port::kOnboard;
 const frc::Color BLUE_TARGET = frc::Color(0.143, 0.427, 0.429);
 const frc::Color GREEN_TARGET = frc::Color(0.197, 0.561, 0.240);
