@@ -13,6 +13,9 @@
     "**/.settings": true,
     "**/.factorypath": true
   },
+<<<<<<< HEAD
+  "files.associations": {
+=======
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
   "files.associations": {
     "algorithm": "cpp",
@@ -98,6 +101,7 @@
     "iomanip": "cpp",
     "shared_mutex": "cpp",
     "cinttypes": "cpp",
+>>>>>>> develop
     "*.inc": "cpp"
   }
 }
