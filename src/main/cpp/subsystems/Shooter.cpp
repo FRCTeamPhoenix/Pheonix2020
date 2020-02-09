@@ -69,9 +69,9 @@ void Shooter::setShooterSpeed(const double& percent) {
     m_shooterBottom.Set(ControlMode::PercentOutput, percent);
 }
 
-void Shooter::setLoaderSpeed(const double& speed) {
-    m_loaderLeft.Set(ControlMode::MotionMagic, speed);
-    m_loaderRight.Set(ControlMode::MotionMagic, speed);
+void Shooter::setLoaderSpeed(const double& percent) {
+    m_loaderLeft.Set(ControlMode::PercentOutput, percent);
+    m_loaderRight.Set(ControlMode::PercentOutput, percent);
 }
 
 void Shooter::setIntakeSpeed(const double& percent) {
