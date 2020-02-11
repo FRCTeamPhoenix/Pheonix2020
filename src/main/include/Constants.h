@@ -18,5 +18,5 @@
  */
 
 // Joystick ports and button IDs
-const int DRIVER_CONTROL = 0;
-const int OPERATOR_CONTROL = 1;
+const int DRIVER_CONTROL = 1;
+const int OPERATOR_CONTROL = 0;
