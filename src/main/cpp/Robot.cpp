@@ -10,7 +10,12 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {}
+#include "ControlBinding.h"
+
+void Robot::RobotInit() {
+    ControlBinding::getInstance()->initialize();
+    
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -46,7 +51,14 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+    std::cout << "Drive Left: " << ControlBinding::getInstance()->getControlStatus("driveLeft", 0.1) << std::endl;
+    std::cout << "Drive Right: " << ControlBinding::getInstance()->getControlStatus("driveRight", 0.1) << std::endl;
+    std::cout << "Shift: " << ControlBinding::getInstance()->getControlStatus("shift") << std::endl;
+    std::cout << "Shoot: " << ControlBinding::getInstance()->getControlStatus("shoot", 0.1) << std::endl;
+    std::cout << "Intake: " << ControlBinding::getInstance()->getControlStatus("intake") << std::endl;
+    std::cout << "Tilt Intake: " << ControlBinding::getInstance()->getControlStatus("tiltIntake") << std::endl;
+}
 
 /**
  * This function is called periodically during test mode.

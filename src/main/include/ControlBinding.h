@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <unordered_map>
 
 #include <frc/Joystick.h>
@@ -24,6 +23,13 @@ struct ControlData {
 
 class ControlBinding {
     public:
+        static ControlBinding* getInstance() {
+            static ControlBinding instance;
+            return &instance;
+        }
+
+        ControlBinding(ControlBinding const&) = delete;
+        void operator = (ControlBinding const&) = delete;
         ControlBinding();
         void initialize();
         bool getControlStatus(std::string control, double deadzone = 0);

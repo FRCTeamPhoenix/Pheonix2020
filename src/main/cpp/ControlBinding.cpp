@@ -9,9 +9,9 @@ void ControlBinding::initialize() {
     m_controlData["driveRight"] = {JoystickType::DRIVER, ControlType::AXIS, 1};
     m_controlData["shift"] = {JoystickType::DRIVER, ControlType::BUTTON, 2};
     // Operator controls
-    m_controlData["shoot"] = {JoystickType::OPERATOR, ControlType::BUTTON, 3};
+    m_controlData["shoot"] = {JoystickType::OPERATOR, ControlType::AXIS, 3};
     m_controlData["intake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 4};
-    m_controlData["tiltIntake"] = {JoystickType::OPERATOR, ControlType::AXIS, 5};
+    m_controlData["tiltIntake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 5};
 }
 
 bool ControlBinding::getControlStatus(std::string control, double deadzone /* = 0 */) {
@@ -31,4 +31,6 @@ bool ControlBinding::getControlStatus(std::string control, double deadzone /* = 
     } catch (ControlModeDoesNotExistException e) {
         std::cout << e.printException() << std::endl;
     }
+
+    return false;
 }
