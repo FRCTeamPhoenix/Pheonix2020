@@ -13,10 +13,12 @@
 #include "subsystems/TankSubsystem.h"
 #include "PCMHandler.h"
 #include "Limelight.h"
+#include "Cameras.h"
 
 void Robot::RobotInit() {
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
+    CameraHost::getInstance()->init();
     Limelight::disableLight();
 }
 
@@ -49,7 +51,9 @@ void Robot::RobotPeriodic() {
  */
 void Robot::DisabledInit() {}
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+    Limelight::disableLight();
+}
 
 /**
  * This autonomous runs the autonomous command selected by your {@link
@@ -85,6 +89,7 @@ void Robot::TeleopInit() {
  */
 void Robot::TeleopPeriodic() {
     //teleop logic
+    //press the 'X' button to auto lock
     if(m_driverJoystick.GetRawButton(1)){
         if(!m_buttonPressed){
             frc2::CommandScheduler::GetInstance().Schedule(true, &m_nonAutoAim);

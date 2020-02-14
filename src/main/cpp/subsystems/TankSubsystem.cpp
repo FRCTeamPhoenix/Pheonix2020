@@ -35,8 +35,8 @@ void TankSubsystem::init(){
     m_frontLeft.SetSensorPhase(true);
 
     //invert left side motion (is it going the right way ?)
-    m_frontLeft.SetInverted(false);
-    m_backLeft.SetInverted(false);
+    m_frontLeft.SetInverted(true);
+    m_backLeft.SetInverted(true);
 
     //change output to match +
     m_frontRight.SetSensorPhase(false);
