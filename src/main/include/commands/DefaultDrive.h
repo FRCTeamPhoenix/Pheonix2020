@@ -19,4 +19,7 @@ class DefaultDrive : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive>
     
     private:
         frc::Joystick m_driverJoystick{0};
+
+        bool m_inverted;
+        bool m_pressedBefore;
 };
