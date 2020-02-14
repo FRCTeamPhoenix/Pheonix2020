@@ -31,7 +31,7 @@ class ControlBinding {
         void operator = (ControlBinding const&) = delete;
         ControlBinding();
         void initialize();
-        bool getControlStatus(std::string control, double deadzone = 0);
+        double getControlStatus(std::string control, double deadzone = 0);
 
     private:
         frc::Joystick m_driverJoystick{DRIVER_CONTROL};

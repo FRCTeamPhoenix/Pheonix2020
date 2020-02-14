@@ -52,27 +52,15 @@ void Robot::TeleopInit() {
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
-    /* if (ControlBinding::getInstance()->getControlStatus("driveLeft", 0.1)) {
-        std::cout << "Drive Left" << std::endl;
-    }
-    if (ControlBinding::getInstance()->getControlStatus("driveRight", 0.1)) {
-        std::cout << "Drive Right" << std::endl;
-    }
-    if (ControlBinding::getInstance()->getControlStatus("shift")) {
-        std::cout << "Shift" << std::endl;
-    }
-    if (ControlBinding::getInstance()->getControlStatus("shoot")) {
-        std::cout << "Shoot" << std::endl;
-    }
-    if (ControlBinding::getInstance()->getControlStatus("intake")) {
-        std::cout << "Intake" << std::endl;
-    }
-    if (ControlBinding::getInstance()->getControlStatus("outtake")) {
-        std::cout << "Outtake" << std::endl;
-    }
-    if (ControlBinding::getInstance()->getControlStatus("tiltIntake")) {
-        std::cout << "Tilt Intake" << std::endl;
-    } */
+    double deadzone = 0.1;
+
+    double driveLeft = ControlBinding::getInstance()->getControlStatus("driveLeft", deadzone);
+    double driveRight = ControlBinding::getInstance()->getControlStatus("driveRight", deadzone);
+    bool shift = ControlBinding::getInstance()->getControlStatus("shift");
+    double shoot = ControlBinding::getInstance()->getControlStatus("shoot", deadzone);
+    bool intake = ControlBinding::getInstance()->getControlStatus("intake");
+    bool outtake = ControlBinding::getInstance()->getControlStatus("outtake");
+    bool tiltIntake = ControlBinding::getInstance()->getControlStatus("tiltIntake");
 }
 
 /**
