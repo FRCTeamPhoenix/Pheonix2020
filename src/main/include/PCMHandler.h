@@ -9,6 +9,8 @@ class PCMHandler {
         frc::Compressor compressor = frc::Compressor(1);
         frc::Solenoid highgearSol = frc::Solenoid(PCM_CAN_ID, SOLENOID_HIGH_GEAR);
         frc::Solenoid lowgearSol = frc::Solenoid(PCM_CAN_ID, SOLENOID_LOW_GEAR);
+        frc::Solenoid tiltIntakeUpSol = frc::Solenoid(PCM_CAN_ID, SOLENOID_INTAKE_TILT_UP);
+        frc::Solenoid tiltIntakeDownSol = frc::Solenoid(PCM_CAN_ID, SOLENOID_INTAKE_TILT_DOWN);
         PCMHandler();
     public:
         static PCMHandler* getInstance() {
@@ -24,4 +26,6 @@ class PCMHandler {
         void turnOff();
         void setLowGear();
         void setHighGear();
+        void tiltIntakeUp(bool active);
+        void tiltIntakeDown(bool active);
 };

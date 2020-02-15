@@ -1,34 +1,41 @@
 #include "commands/DefaultDrive.h"
+#include "ControlBinding.h"
+#include "Constants.h"
 #include "Cameras.h"
 
 DefaultDrive::DefaultDrive() {
     AddRequirements({TankSubsystem::getInstance()});
 }
 
-void DefaultDrive::Initialize() {
-
-}
+void DefaultDrive::Initialize() {}
 
 void DefaultDrive::Execute() {
-    double leftStick = m_driverJoystick.GetRawAxis(1);
-    double rightStick = m_driverJoystick.GetRawAxis(3);
+    double leftStick = ControlBinding::getInstance()->getControlStatus("driveLeft", DEADZONE);
+    double rightStick = ControlBinding::getInstance()->getControlStatus("driveRight", DEADZONE);
+    bool shiftHigh = ControlBinding::getInstance()->getControlStatus("shiftHigh") > 0.1;
+    bool shiftLow = ControlBinding::getInstance()->getControlStatus("shiftLow") > 0.1;
 
-    if(m_inverted){
+    if (shiftHigh) {
+        TankSubsystem::getInstance()->setHighGear();
+    } else if (shiftLow) {
+        TankSubsystem::getInstance()->setLowGear();
+    }
+
+    if (m_inverted) {
         //swap sides and direction
         TankSubsystem::getInstance()->setSpeed(rightStick, leftStick);
-    }else{
+    } else {
         TankSubsystem::getInstance()->setSpeed(-leftStick, -rightStick);
     }
     
-
     //toggle direction using the 'B' button
-    if(m_driverJoystick.GetRawButton(3)){
-        if(!m_pressedBefore){
+    if (ControlBinding::getInstance()->getControlStatus("switchCamera") > 0.1) {
+        if (!m_pressedBefore) {
             m_inverted = !m_inverted;
             CameraHost::getInstance()->setReverse(m_inverted);
         }
         m_pressedBefore = true;
-    }else{
+    } else {
         m_pressedBefore = false;
     }
 }

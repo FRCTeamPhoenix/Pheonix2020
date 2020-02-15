@@ -16,6 +16,7 @@
 #include "commands/Turn.h"
 #include "commands/DefaultDrive.h"
 #include "commands/AimAdjust.h"
+#include "commands/DefaultOperate.h"
 
 #include "ColorSensor.h"
 
@@ -34,9 +35,11 @@ class Robot : public frc::TimedRobot {
 
 private:
   DefaultDrive m_defaultDrive;
-  frc::Joystick m_driverJoystick{0};
+  DefaultOperate m_defaultOperate;
+  frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
   AimAdjust m_nonAutoAim{false};
-  frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), Turn(180.0), AimAdjust(true)};
+  frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0)};
+  //frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), Turn(180.0), AimAdjust(true)};
 
   bool m_buttonPressed = false;
   int m_counter = 0;

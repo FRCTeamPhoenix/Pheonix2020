@@ -5,18 +5,18 @@
 #include <frc/Joystick.h>
 
 #include "Constants.h"
-#include "subsystems/TankSubsystem.h"
+#include "subsystems/Shooter.h"
 
-class DefaultDrive : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive> {
+class DefaultOperate : public frc2::CommandHelper<frc2::CommandBase, DefaultOperate> {
     public:
-        DefaultDrive();
+        DefaultOperate();
         void Initialize() override;
         void Execute() override;
         void End(bool interrupted) override;
         bool IsFinished() override;
     
     private:
-        frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
+        frc::Joystick m_operatorJoystick{OPERATOR_JOYSTICK};
         bool m_inverted;
         bool m_pressedBefore;
 };

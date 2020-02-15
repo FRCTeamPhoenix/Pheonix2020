@@ -15,7 +15,12 @@
 #include "Limelight.h"
 #include "Cameras.h"
 
+#include "ControlBinding.h"
+#include "subsystems/Shooter.h"
+
 void Robot::RobotInit() {
+    ControlBinding::getInstance()->initialize();
+    Shooter::getInstance()->initialize();
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
     CameraHost::getInstance()->init();
@@ -75,8 +80,8 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     //teleop logic
-    if(m_counter == 1 && frc::SmartDashboard::GetBoolean("Should Auto", false)){
-        frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
+    if(m_counter == 1){
+        //frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
     }
 
     m_counter++;
@@ -87,6 +92,7 @@ void Robot::TeleopInit() {
     TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
 
     frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultDrive);
+    frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultOperate);
 }
 
 /**
@@ -95,13 +101,13 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
     //teleop logic
     //press the 'X' button to auto lock
-    if(m_driverJoystick.GetRawButton(1)){
-        if(!m_buttonPressed){
+    if (ControlBinding::getInstance()->getControlStatus("visionAim") > 0.1) {
+        if (!m_buttonPressed) {
             frc2::CommandScheduler::GetInstance().Schedule(true, &m_nonAutoAim);
         }
         m_buttonPressed = true;
-    }else{
-        if(m_buttonPressed){
+    } else {
+        if (m_buttonPressed) {
             frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultDrive);
         }
             

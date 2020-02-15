@@ -13,17 +13,33 @@
     "**/.settings": true,
     "**/.factorypath": true
   },
+<<<<<<< HEAD
+  "C_Cpp.default.configurationProvider": "vscode-wpilib",
+  "files.associations": {
+    "unordered_map": "cpp",
+    "thread": "cpp",
+    "array": "cpp",
+    "atomic": "cpp",
+    "*.tcc": "cpp",
+=======
+<<<<<<< HEAD
+  "files.associations": {
+=======
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
   "files.associations": {
     "algorithm": "cpp",
     "array": "cpp",
     "atomic": "cpp",
+>>>>>>> shooter
     "cctype": "cpp",
     "chrono": "cpp",
     "clocale": "cpp",
     "cmath": "cpp",
     "complex": "cpp",
+<<<<<<< HEAD
+=======
     "concepts": "cpp",
+>>>>>>> shooter
     "condition_variable": "cpp",
     "cstdarg": "cpp",
     "cstddef": "cpp",
@@ -35,6 +51,39 @@
     "cwchar": "cpp",
     "cwctype": "cpp",
     "deque": "cpp",
+<<<<<<< HEAD
+    "vector": "cpp",
+    "exception": "cpp",
+    "algorithm": "cpp",
+    "functional": "cpp",
+    "iterator": "cpp",
+    "map": "cpp",
+    "memory": "cpp",
+    "memory_resource": "cpp",
+    "optional": "cpp",
+    "ratio": "cpp",
+    "set": "cpp",
+    "string": "cpp",
+    "string_view": "cpp",
+    "system_error": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp",
+    "fstream": "cpp",
+    "initializer_list": "cpp",
+    "iosfwd": "cpp",
+    "iostream": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "mutex": "cpp",
+    "new": "cpp",
+    "ostream": "cpp",
+    "sstream": "cpp",
+    "stdexcept": "cpp",
+    "streambuf": "cpp",
+    "cinttypes": "cpp",
+    "typeinfo": "cpp"
+=======
     "exception": "cpp",
     "fstream": "cpp",
     "functional": "cpp",
@@ -98,6 +147,8 @@
     "iomanip": "cpp",
     "shared_mutex": "cpp",
     "cinttypes": "cpp",
+>>>>>>> develop
     "*.inc": "cpp"
+>>>>>>> shooter
   }
 }

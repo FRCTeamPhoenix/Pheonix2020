@@ -38,7 +38,7 @@ class TankSubsystem : public frc2::SubsystemBase {
     private:
         TankSubsystem();
 
-        PigeonIMU m_imu = {IMU_ID};
+        //PigeonIMU m_imu = {IMU_ID};
 
         const int TIMEOUT = 10;
 
