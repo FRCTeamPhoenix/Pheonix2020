@@ -8,7 +8,7 @@
 
 class AimAdjust : public frc2::CommandHelper<frc2::CommandBase, AimAdjust>{
 public:
-    AimAdjust();
+    AimAdjust(bool autoVersion = false);
 
     void Initialize() override;
 
@@ -18,5 +18,10 @@ public:
 
     bool IsFinished() override;
 private:
+<<<<<<< HEAD
     frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
+=======
+    bool m_autoVersion;
+    frc::Joystick m_driverJoystick{0};
+>>>>>>> develop
 };

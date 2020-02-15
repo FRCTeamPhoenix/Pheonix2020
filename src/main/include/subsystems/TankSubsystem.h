@@ -5,7 +5,6 @@
 #include <frc/drive/DifferentialDrive.h>
 
 #include "Constants.h"
-#include "adi/ADIS16448_IMU.h"
 
 class TankSubsystem : public frc2::SubsystemBase {
     public:
@@ -27,6 +26,9 @@ class TankSubsystem : public frc2::SubsystemBase {
         //zero encoders
         void zeroEncoders();
 
+        //zero gyro
+        void zeroGyro();
+
         //used to check the dashboard for any calibration related things to gyro
         void updateGyro();
 
@@ -36,9 +38,7 @@ class TankSubsystem : public frc2::SubsystemBase {
     private:
         TankSubsystem();
 
-        int to180Scale(int original);
-
-        frc::ADIS16448_IMU m_imu{};
+        PigeonIMU m_imu = {IMU_ID};
 
         const int TIMEOUT = 10;
 
