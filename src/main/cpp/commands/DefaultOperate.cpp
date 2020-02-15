@@ -20,7 +20,7 @@ void DefaultOperate::Execute() {
 
     Shooter::getInstance()->setLoaderSpeed(recoilSpeed);
     Shooter::getInstance()->setShooterSpeed(recoilSpeed);
-    Shooter::getInstance()->setFlywheelSpeed(shoot);
+    Shooter::getInstance()->setFlywheelSpeed(shoot * 0.5);
     Shooter::getInstance()->tiltIntakeUp(tiltIntakeUp);
     Shooter::getInstance()->tiltIntakeDown(tiltIntakeDown);
 
