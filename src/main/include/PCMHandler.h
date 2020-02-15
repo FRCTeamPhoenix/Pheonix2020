@@ -25,6 +25,5 @@ class PCMHandler {
         void turnOff();
         void setLowGear();
         void setHighGear();
-        void activateIntakeTilt();
-        void deactivateIntakeTilt();
+        void enableIntakeTilt(bool enable);
 };

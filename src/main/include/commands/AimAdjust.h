@@ -18,10 +18,6 @@ public:
 
     bool IsFinished() override;
 private:
-<<<<<<< HEAD
-    frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
-=======
     bool m_autoVersion;
-    frc::Joystick m_driverJoystick{0};
->>>>>>> develop
+    frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
 };

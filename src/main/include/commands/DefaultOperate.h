@@ -7,13 +7,16 @@
 #include "Constants.h"
 #include "subsystems/Shooter.h"
 
-class IntakePowerCell : public frc2::CommandHelper<frc2::CommandBase, IntakePowerCell> {
+class DefaultOperate : public frc2::CommandHelper<frc2::CommandBase, DefaultOperate> {
     public:
-        IntakePowerCell();
+        DefaultOperate();
         void Initialize() override;
+        void Execute() override;
         void End(bool interrupted) override;
         bool IsFinished() override;
-
+    
     private:
         frc::Joystick m_operatorJoystick{OPERATOR_JOYSTICK};
+        bool m_inverted;
+        bool m_pressedBefore;
 };

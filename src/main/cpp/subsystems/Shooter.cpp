@@ -78,20 +78,8 @@ void Shooter::setIntakeSpeed(const double& percent) {
     m_intake.Set(ControlMode::PercentOutput, percent);
 }
 
-void Shooter::intakePowerCell() {
-    setIntakeSpeed(0.5);
-}
-
-void Shooter::loadPowerCell() {
-    setLoaderSpeed(0.1);
-}
-
-void Shooter::activateIntakeTilt() {
-    PCMHandler::getInstance()->activateIntakeTilt();
-}
-
-void Shooter::deactivateIntakeTilt() {
-    PCMHandler::getInstance()->deactivateIntakeTilt();
+void Shooter::enableIntakeTilt(bool enable) {
+    PCMHandler::getInstance()->enableIntakeTilt(enable);
 }
 
 void Shooter::stop() {
