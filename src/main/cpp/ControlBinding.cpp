@@ -8,6 +8,7 @@ void ControlBinding::initialize() {
     m_controlData["driveLeft"] = {JoystickType::DRIVER, ControlType::AXIS, 1};
     m_controlData["driveRight"] = {JoystickType::DRIVER, ControlType::AXIS, 3};
     m_controlData["shift"] = {JoystickType::DRIVER, ControlType::BUTTON, 6};
+    m_controlData["switchCamera"] = {JoystickType::DRIVER, ControlType::BUTTON, 3}
     // Operator controls
     m_controlData["shoot"] = {JoystickType::OPERATOR, ControlType::AXIS, 3};
     m_controlData["intake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 8};

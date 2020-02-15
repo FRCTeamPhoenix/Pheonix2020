@@ -19,5 +19,12 @@ class DefaultDrive : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive>
         bool IsFinished() override;
     
     private:
+<<<<<<< HEAD
         frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
+=======
+        frc::Joystick m_driverJoystick{0};
+
+        bool m_inverted;
+        bool m_pressedBefore;
+>>>>>>> develop
 };

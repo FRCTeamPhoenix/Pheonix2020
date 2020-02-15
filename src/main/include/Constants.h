@@ -24,8 +24,8 @@
 const double DEADZONE = 0.1;
 
 // Joystick IDs
-const int DRIVER_JOYSTICK = 1;
-const int OPERATOR_JOYSTICK = 0;
+const int DRIVER_JOYSTICK = 0;
+const int OPERATOR_JOYSTICK = 1;
 
 // Talon IDs
 const int IMU_ID = 0;
@@ -87,3 +87,10 @@ const double DRIVE_TRAIN_WIDTH_IN = 26;
 const double PI = 3.1415;
 const double ROTATIONS_TO_DISTANCE = WHEEL_DIMATER_IN * PI;
 const double TICKS_TO_DISTANCE = ROTATIONS_TO_DISTANCE / TICKS_PER_REV;
+<<<<<<< HEAD
+=======
+
+//camera constants
+const int CAMERA_FRONT = 1;
+const int CAMERA_BACK = 0;
+>>>>>>> develop

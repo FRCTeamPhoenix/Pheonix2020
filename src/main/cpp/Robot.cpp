@@ -13,6 +13,7 @@
 #include "subsystems/TankSubsystem.h"
 #include "PCMHandler.h"
 #include "Limelight.h"
+#include "Cameras.h"
 
 #include "ControlBinding.h"
 #include "subsystems/Shooter.h"
@@ -21,6 +22,7 @@ void Robot::RobotInit() {
     ControlBinding::getInstance()->initialize();
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
+    CameraHost::getInstance()->init();
     Limelight::disableLight();
 }
 
@@ -53,7 +55,9 @@ void Robot::RobotPeriodic() {
  */
 void Robot::DisabledInit() {}
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+    Limelight::disableLight();
+}
 
 /**
  * This autonomous runs the autonomous command selected by your {@link
@@ -87,7 +91,26 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
+<<<<<<< HEAD
 void Robot::TeleopPeriodic() {}
+=======
+void Robot::TeleopPeriodic() {
+    //teleop logic
+    //press the 'X' button to auto lock
+    if(m_driverJoystick.GetRawButton(1)){
+        if(!m_buttonPressed){
+            frc2::CommandScheduler::GetInstance().Schedule(true, &m_nonAutoAim);
+        }
+        m_buttonPressed = true;
+    }else{
+        if(m_buttonPressed){
+            frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultDrive);
+        }
+            
+        m_buttonPressed = false;
+    }
+}
+>>>>>>> develop
 
 void Robot::TestInit() {
 }
