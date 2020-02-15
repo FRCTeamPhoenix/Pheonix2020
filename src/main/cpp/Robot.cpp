@@ -80,8 +80,8 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     //teleop logic
-    if(m_counter == 1 && frc::SmartDashboard::GetBoolean("Should Auto", false)){
-        frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
+    if(m_counter == 1){
+        //frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
     }
 
     m_counter++;
