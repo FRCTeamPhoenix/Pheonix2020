@@ -1,4 +1,6 @@
 #include "commands/ShootPowerCell.h"
+#include "ControlBinding.h"
+#include "Constants.h"
 
 ShootPowerCell::ShootPowerCell() {
     AddRequirements({Shooter::getInstance()});
@@ -7,8 +9,10 @@ ShootPowerCell::ShootPowerCell() {
 void ShootPowerCell::Initialize() {}
 
 void ShootPowerCell::Execute() {
-    Shooter::getInstance()->setShooterSpeed(m_operatorJoystick.GetRawAxis(1));
-    Shooter::getInstance()->setFlywheelSpeed(m_operatorJoystick.GetRawAxis(1));
+    double shoot = ControlBinding::getInstance()->getControlStatus("shoot", DEADZONE);
+    std::cout << "Shoot: " << shoot << std::endl;
+    Shooter::getInstance()->setShooterSpeed(-shoot);
+    Shooter::getInstance()->setFlywheelSpeed(-shoot);
 }
 
 void ShootPowerCell::End(bool interrupted) {

@@ -1,4 +1,6 @@
 #include "commands/DefaultDrive.h"
+#include "ControlBinding.h"
+#include "Constants.h"
 
 DefaultDrive::DefaultDrive() {
     AddRequirements({TankSubsystem::getInstance()});
@@ -9,7 +11,9 @@ void DefaultDrive::Initialize() {
 }
 
 void DefaultDrive::Execute() {
-    TankSubsystem::getInstance()->setSpeed(-m_driverJoystick.GetRawAxis(1), -m_driverJoystick.GetRawAxis(3));
+    double driveLeft = ControlBinding::getInstance()->getControlStatus("driveLeft", DEADZONE);
+    double driveRight = ControlBinding::getInstance()->getControlStatus("driveRight", DEADZONE);
+    TankSubsystem::getInstance()->setSpeed(-driveLeft, -driveRight);
 }
 
 void DefaultDrive::End(bool interrupted) {

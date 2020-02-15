@@ -11,9 +11,11 @@
 #include <frc2/command/Command.h>
 #include <frc/Joystick.h>
 
-#include "commands/MotionProfile.h"
-#include "commands/DefaultDrive.h"
 #include "commands/AimAdjust.h"
+#include "commands/DefaultDrive.h"
+#include "commands/IntakePowerCell.h"
+#include "commands/LoadAndShootPowerCell.h"
+#include "commands/MotionProfile.h"
 
 #include "ColorSensor.h"
 

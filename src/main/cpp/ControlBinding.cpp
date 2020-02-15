@@ -35,5 +35,5 @@ double ControlBinding::getControlStatus(std::string control, double deadzone /* 
         std::cout << e.printException() << std::endl;
     }
 
-    return false;
+    return 0;
 }

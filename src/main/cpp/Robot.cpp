@@ -14,7 +14,7 @@
 #include "PCMHandler.h"
 
 #include "ControlBinding.h"
-#include "Shooter.h"
+#include "subsystems/Shooter.h"
 
 void Robot::RobotInit() {
     ControlBinding::getInstance()->initialize();
@@ -77,37 +77,7 @@ void Robot::TeleopInit() {
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
-    double deadzone = 0.1;
-
-    double driveLeft = ControlBinding::getInstance()->getControlStatus("driveLeft", deadzone);
-    double driveRight = ControlBinding::getInstance()->getControlStatus("driveRight", deadzone);
-    bool shift = ControlBinding::getInstance()->getControlStatus("shift");
-    double shoot = ControlBinding::getInstance()->getControlStatus("shoot", deadzone);
-    bool intake = ControlBinding::getInstance()->getControlStatus("intake");
-    bool outtake = ControlBinding::getInstance()->getControlStatus("outtake");
-    bool tiltIntake = ControlBinding::getInstance()->getControlStatus("tiltIntake");
-
-    if (std::abs(driveLeft) > deadzone) {
-        std::cout << "Drive Left: " << driveLeft << std::endl;
-    }
-    if (std::abs(driveRight) > deadzone) {
-        std::cout << "Drive Right: " << driveRight << std::endl;
-    }
-    if (shift) {
-        std::cout << "Shift" << std::endl;
-    }
-    if (std::abs(shoot) > deadzone) {
-        std::cout << "Shoot: " << shoot << std::endl;
-    }
-    if (intake) {
-        std::cout << "Intake" << std::endl;
-    }
-    if (outtake) {
-        std::cout << "Outtake" << std::endl;
-    }
-    if (tiltIntake) {
-        std::cout << "Tilt Intake" << std::endl;
-    }
+    
 }
 
 void Robot::TestInit() {

@@ -20,9 +20,12 @@
  * they are needed.
  */
 
+// Deadzone
+const double DEADZONE = 0.1;
+
 // Joystick IDs
-const int DRIVER_JOYSTICK = 0;
-const int OPERATOR_JOYSTICK = 1;
+const int DRIVER_JOYSTICK = 1;
+const int OPERATOR_JOYSTICK = 0;
 
 // Talon IDs
 const int TALON_FRONT_LEFT = 1;
