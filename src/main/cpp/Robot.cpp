@@ -47,6 +47,11 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("G", detectedColor.green);
     frc::SmartDashboard::PutNumber("B", detectedColor.blue);
     frc::SmartDashboard::PutString("Detected Color", approxColor);
+
+    if(!frc::SmartDashboard::GetBoolean("Should Auto", false)){
+        frc::SmartDashboard::PutBoolean("Should Auto", false);
+    }
+    
 }
 
 /**
@@ -75,7 +80,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     //teleop logic
-    if (m_counter == 1) {
+    if(m_counter == 1 && frc::SmartDashboard::GetBoolean("Should Auto", false)){
         frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
     }
 

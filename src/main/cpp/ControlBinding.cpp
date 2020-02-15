@@ -12,10 +12,17 @@ void ControlBinding::initialize() {
     m_controlData["switchCamera"] = {JoystickType::DRIVER, ControlType::BUTTON, 3};
     m_controlData["visionAim"] = {JoystickType::DRIVER, ControlType::BUTTON, 1};
     // Operator controls
+    //left stick
+    m_controlData["moveloader"] = {JoystickType::OPERATOR, ControlType::AXIS, 1};
+    //right stick
     m_controlData["shoot"] = {JoystickType::OPERATOR, ControlType::AXIS, 3};
+    //right trigger
     m_controlData["intake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 8};
+    //left trigger
     m_controlData["outtake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 7};
+    //left bumper
     m_controlData["tiltIntakeUp"] = {JoystickType::OPERATOR, ControlType::BUTTON, 5};
+    //right bumper
     m_controlData["tiltIntakeDown"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6};
 }
 

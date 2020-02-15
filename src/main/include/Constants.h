@@ -28,18 +28,19 @@ const int DRIVER_JOYSTICK = 0;
 const int OPERATOR_JOYSTICK = 1;
 
 // Talon IDs
+// Note: Make the robot follow this id system using phoenix tuner
 const int IMU_ID = 0;
-const int TALON_FRONT_LEFT = 3;
-const int TALON_FRONT_RIGHT = 4;
-const int TALON_BACK_LEFT = 8;
-const int TALON_BACK_RIGHT = 7;
-const int TALON_FLYWHEEL_LEFT = 9;
-const int TALON_FLYWHEEL_RIGHT = 2;
-const int TALON_SHOOTER_TOP = 6;
-const int TALON_SHOOTER_BOTTOM = 0;
-const int TALON_LOADER_LEFT = 5;
+const int TALON_FRONT_LEFT = 1;
+const int TALON_FRONT_RIGHT = 2;
+const int TALON_BACK_LEFT = 3;
+const int TALON_BACK_RIGHT = 4;
+const int TALON_FLYWHEEL_LEFT = 5;
+const int TALON_FLYWHEEL_RIGHT = 6;
+const int TALON_SHOOTER_TOP = 7;
+const int TALON_SHOOTER_BOTTOM = 8;
+const int TALON_LOADER_LEFT = 9;
 const int TALON_LOADER_RIGHT = 10;
-const int TALON_INTAKE = 1;
+const int TALON_INTAKE = 11;
 
 // Solenoid IDs
 const int PCM_CAN_ID = 11;

@@ -11,8 +11,8 @@ void DefaultOperate::Initialize() {
 }
 
 void DefaultOperate::Execute() {
-    double shoot = ControlBinding::getInstance()->getControlStatus("shoot", DEADZONE);
-    double recoilSpeed = shoot > DEADZONE ? 0.2 : 0;
+    double shoot = -ControlBinding::getInstance()->getControlStatus("shoot", DEADZONE);
+    double recoilSpeed = -ControlBinding::getInstance()->getControlStatus("moveloader", DEADZONE);
     bool intake = ControlBinding::getInstance()->getControlStatus("intake") > 0.1;
     bool outtake = ControlBinding::getInstance()->getControlStatus("outtake") > 0.1;
     bool tiltIntakeUp = ControlBinding::getInstance()->getControlStatus("tiltIntakeUp") > 0.1;
