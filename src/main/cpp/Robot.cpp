@@ -45,8 +45,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {
-}
+void Robot::TeleopInit() {}
 
 /**
  * This function is called periodically during operator control.
@@ -61,6 +60,28 @@ void Robot::TeleopPeriodic() {
     bool intake = ControlBinding::getInstance()->getControlStatus("intake");
     bool outtake = ControlBinding::getInstance()->getControlStatus("outtake");
     bool tiltIntake = ControlBinding::getInstance()->getControlStatus("tiltIntake");
+
+    if (std::abs(driveLeft) > deadzone) {
+        std::cout << "Drive Left: " << driveLeft << std::endl;
+    }
+    if (std::abs(driveRight) > deadzone) {
+        std::cout << "Drive Right: " << driveRight << std::endl;
+    }
+    if (shift) {
+        std::cout << "Shift" << std::endl;
+    }
+    if (std::abs(shoot) > deadzone) {
+        std::cout << "Shoot: " << shoot << std::endl;
+    }
+    if (intake) {
+        std::cout << "Intake" << std::endl;
+    }
+    if (outtake) {
+        std::cout << "Outtake" << std::endl;
+    }
+    if (tiltIntake) {
+        std::cout << "Tilt Intake" << std::endl;
+    }
 }
 
 /**
