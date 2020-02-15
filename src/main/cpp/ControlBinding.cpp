@@ -15,7 +15,8 @@ void ControlBinding::initialize() {
     m_controlData["shoot"] = {JoystickType::OPERATOR, ControlType::AXIS, 3};
     m_controlData["intake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 8};
     m_controlData["outtake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 7};
-    m_controlData["tiltIntake"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6};
+    m_controlData["tiltIntakeUp"] = {JoystickType::OPERATOR, ControlType::BUTTON, 5};
+    m_controlData["tiltIntakeDown"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6};
 }
 
 double ControlBinding::getControlStatus(std::string control, double deadzone /* = 0 */) {

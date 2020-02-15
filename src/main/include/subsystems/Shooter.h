@@ -20,7 +20,8 @@ class Shooter : public frc2::SubsystemBase {
         void setShooterSpeed(const double& speed);
         void setLoaderSpeed(const double& speed);
         void setIntakeSpeed(const double& speed);
-        void enableIntakeTilt(bool enable);
+        void tiltIntakeUp(bool active);
+        void tiltIntakeDown(bool active);
         void execute();
         void stop();
     

@@ -16,8 +16,8 @@ void Shooter::initialize() {
     
     // Make sure corresponding motors spin opposite direction 
     m_flywheelLeft.SetInverted(true);
-    m_flywheelRight.SetInverted(false);
-    m_shooterTop.SetInverted(true);
+    m_flywheelRight.SetInverted(true);
+    m_shooterTop.SetInverted(false);
     m_shooterBottom.SetInverted(false);
     m_loaderLeft.SetInverted(true);
     m_loaderRight.SetInverted(false);
@@ -60,17 +60,14 @@ void Shooter::initialize() {
 }
 
 void Shooter::setFlywheelSpeed(const double& percent) {
-    m_flywheelLeft.Set(ControlMode::PercentOutput, percent);
     m_flywheelRight.Set(ControlMode::PercentOutput, percent);
 }
 
 void Shooter::setShooterSpeed(const double& percent) {
-    m_shooterTop.Set(ControlMode::PercentOutput, percent);
     m_shooterBottom.Set(ControlMode::PercentOutput, percent);
 }
 
 void Shooter::setLoaderSpeed(const double& percent) {
-    m_loaderLeft.Set(ControlMode::PercentOutput, percent);
     m_loaderRight.Set(ControlMode::PercentOutput, percent);
 }
 
@@ -78,8 +75,14 @@ void Shooter::setIntakeSpeed(const double& percent) {
     m_intake.Set(ControlMode::PercentOutput, percent);
 }
 
-void Shooter::enableIntakeTilt(bool enable) {
-    PCMHandler::getInstance()->enableIntakeTilt(enable);
+void Shooter::tiltIntakeUp(bool active) {
+    std::cout << "Tilt up: " << active << std::endl;
+    PCMHandler::getInstance()->tiltIntakeUp(active);
+}
+
+void Shooter::tiltIntakeDown(bool active) {
+    std::cout << "Tilt down: " << active << std::endl;
+    PCMHandler::getInstance()->tiltIntakeDown(active);
 }
 
 void Shooter::stop() {

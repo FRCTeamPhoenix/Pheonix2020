@@ -18,8 +18,12 @@ void PCMHandler::setHighGear() {
     highgearSol.Set(true);
 }
 
-void PCMHandler::enableIntakeTilt(bool enable) {
-    tiltIntakeSol.Set(enable);
+void PCMHandler::tiltIntakeUp(bool active) {
+    tiltIntakeUpSol.Set(active);
+}
+
+void PCMHandler::tiltIntakeDown(bool active) {
+    tiltIntakeDownSol.Set(active);
 }
 
 PCMHandler::PCMHandler() {}

@@ -20,6 +20,7 @@
 
 void Robot::RobotInit() {
     ControlBinding::getInstance()->initialize();
+    Shooter::getInstance()->initialize();
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
     CameraHost::getInstance()->init();
@@ -74,7 +75,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     //teleop logic
-    if(m_counter == 1){
+    if (m_counter == 1) {
         frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
     }
 

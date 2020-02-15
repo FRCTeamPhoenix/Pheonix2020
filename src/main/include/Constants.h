@@ -29,24 +29,24 @@ const int OPERATOR_JOYSTICK = 1;
 
 // Talon IDs
 const int IMU_ID = 0;
-const int TALON_FRONT_LEFT = 1;
-const int TALON_FRONT_RIGHT = 2;
-const int TALON_BACK_LEFT = 3;
-const int TALON_BACK_RIGHT = 4;
-const int TALON_FLYWHEEL_LEFT = 5;
-const int TALON_FLYWHEEL_RIGHT = 6;
-const int TALON_SHOOTER_TOP = 7;
-const int TALON_SHOOTER_BOTTOM = 8;
-const int TALON_LOADER_LEFT = 9;
+const int TALON_FRONT_LEFT = 3;
+const int TALON_FRONT_RIGHT = 4;
+const int TALON_BACK_LEFT = 8;
+const int TALON_BACK_RIGHT = 7;
+const int TALON_FLYWHEEL_LEFT = 9;
+const int TALON_FLYWHEEL_RIGHT = 2;
+const int TALON_SHOOTER_TOP = 6;
+const int TALON_SHOOTER_BOTTOM = 0;
+const int TALON_LOADER_LEFT = 5;
 const int TALON_LOADER_RIGHT = 10;
-const int TALON_INTAKE = 11;
-const int TALON_INTAKE_TILT = 12;
+const int TALON_INTAKE = 1;
 
 // Solenoid IDs
 const int PCM_CAN_ID = 11;
 const int SOLENOID_HIGH_GEAR = 6;
 const int SOLENOID_LOW_GEAR = 7;
-const int SOLENOID_INTAKE_TILT = 8;
+const int SOLENOID_INTAKE_TILT_UP = 0;
+const int SOLENOID_INTAKE_TILT_DOWN = 1;
 
 // Sensor ports
 const int LOADER_SENSOR_PORT = 0;
@@ -89,5 +89,5 @@ const double ROTATIONS_TO_DISTANCE = WHEEL_DIMATER_IN * PI;
 const double TICKS_TO_DISTANCE = ROTATIONS_TO_DISTANCE / TICKS_PER_REV;
 
 //camera constants
-const int CAMERA_FRONT = 1;
-const int CAMERA_BACK = 0;
+const int CAMERA_FRONT = 0;
+const int CAMERA_BACK = 1;
