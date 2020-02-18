@@ -37,4 +37,6 @@ class ControlBinding {
         frc::Joystick m_driverJoystick{DRIVER_CONTROL};
         frc::Joystick m_operatorJoystick{OPERATOR_CONTROL};
         std::unordered_map<std::string, ControlData> m_controlData;
+
+        void displayControlBindings();
 };
