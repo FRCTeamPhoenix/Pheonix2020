@@ -1,6 +1,3 @@
-#include <networktables/NetworkTable.h>
-#include <networktables/NetworkTableInstance.h>
-
 #include "ControlBinding.h"
 #include "ControlModeDoesNotExistException.h"
 
@@ -49,17 +46,17 @@ double ControlBinding::getControlStatus(std::string control, double deadzone /* 
 }
 
 void ControlBinding::displayControlBindings() {
-    auto controls = nt::NetworkTableInstance::GetDefault().GetTable("Control Bindings");
-    auto driverControls = controls->GetSubTable("Driver Controls");
-    auto operatorControls = controls->GetSubTable("Operator Controls");
-
     for(auto it = m_controlData.begin(); it != m_controlData.end(); it++){
         if (it->second.driver == JoystickType::DRIVER) {
             // Display driver control bindings
-            driverControls->GetEntry(it->first).SetDouble(it->second.id);
+            m_driverControls->GetEntry(it->first).SetDouble(it->second.id);
         } else {
             // Display operator control bindings
-            operatorControls->GetEntry(it->first).SetDouble(it->second.id);
+            m_operatorControls->GetEntry(it->first).SetDouble(it->second.id);
         }
     }
+}
+
+void ControlBinding::updateControlBindings() {
+    
 }

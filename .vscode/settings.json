@@ -66,6 +66,15 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "cinttypes": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "hash_map": "cpp",
+    "hash_set": "cpp",
+    "bitset": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "future": "cpp",
+    "iomanip": "cpp"
   }
 }
