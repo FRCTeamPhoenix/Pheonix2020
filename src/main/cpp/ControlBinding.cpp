@@ -1,6 +1,8 @@
 #include "ControlBinding.h"
 #include "ControlModeDoesNotExistException.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
+
 ControlBinding::ControlBinding() {}
 
 void ControlBinding::initialize() {
@@ -39,7 +41,7 @@ double ControlBinding::getControlStatus(std::string control, double deadzone /* 
             return m_operatorJoystick.GetRawButton(it->second.id);
         }
     } catch (ControlModeDoesNotExistException e) {
-        std::cout << e.printException() << std::endl;
+        std::cout << e.what() << std::endl;
     }
 
     return false;
@@ -58,5 +60,14 @@ void ControlBinding::displayControlBindings() {
 }
 
 void ControlBinding::updateControlBindings() {
-    
+    try {
+        if (frc::SmartDashboard::getInstance().GetBoolean("Save Controls")) {
+            std::string control = frc::SmartDashboard::GetString("Control Mode");
+            int newID = std::stoi(frc::SmartDashboard::GetString("ID"));
+            auto it = m_controlData.find(control);
+            it->second.id = newID;
+        }
+    } catch (std::exception& e) {
+        std::cout << "Exception Occurred: " << e.what() << std::endl;
+    }
 }

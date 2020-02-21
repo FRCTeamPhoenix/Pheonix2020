@@ -9,12 +9,22 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc2/command/button/JoystickButton.h>
+#include "subsystems/TankSubsystem.h"
+#include "PCMHandler.h"
+#include "Limelight.h"
+#include "Cameras.h"
 
 #include "ControlBinding.h"
+#include "subsystems/Shooter.h"
 
 void Robot::RobotInit() {
     ControlBinding::getInstance()->initialize();
-    
+    Shooter::getInstance()->initialize();
+    TankSubsystem::getInstance()->init();
+    TankSubsystem::getInstance()->zeroEncoders();
+    CameraHost::getInstance()->init();
+    Limelight::disableLight();
 }
 
 /**
@@ -25,7 +35,25 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
+void Robot::RobotPeriodic() { 
+    frc2::CommandScheduler::GetInstance().Run();
+    TankSubsystem::getInstance()->updateGyro();
+
+    //update color sensor values
+    frc::Color detectedColor = m_colorSensor.getDetectedColor();
+    std::string approxColor = m_colorSensor.getApproximateColor();
+
+    frc::SmartDashboard::PutNumber("R", detectedColor.red);
+    frc::SmartDashboard::PutNumber("G", detectedColor.green);
+    frc::SmartDashboard::PutNumber("B", detectedColor.blue);
+    frc::SmartDashboard::PutString("Detected Color", approxColor);
+
+    if(!frc::SmartDashboard::GetBoolean("Should Auto", false)){
+        frc::SmartDashboard::PutBoolean("Should Auto", false);
+    }
+    
+    ControlBinding::getInstance()->updateControlBindings();
+}
 
 /**
  * This function is called once each time the robot enters Disabled mode. You
@@ -34,60 +62,71 @@ void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
  */
 void Robot::DisabledInit() {}
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+    Limelight::disableLight();
+}
 
 /**
  * This autonomous runs the autonomous command selected by your {@link
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+    TankSubsystem::getInstance()->zeroEncoders();
+    TankSubsystem::getInstance()->zeroGyro();
+
+    m_counter = 0;
+    frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+    //teleop logic
+    if(m_counter < 120){
+        TankSubsystem::getInstance()->setSpeed(0.5, 0.5);
+        //frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
+    }else{
+        TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+    }
 
-void Robot::TeleopInit() {}
+    m_counter++;
+}
+
+void Robot::TeleopInit() {
+    //make robot stop
+    TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+
+    frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultDrive);
+    frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultOperate);
+}
 
 /**
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
-    double deadzone = 0.1;
+    //teleop logic
+    //press the 'X' button to auto lock
+    if (ControlBinding::getInstance()->getControlStatus("visionAim") > 0.1) {
+        if (!m_buttonPressed) {
+            frc2::CommandScheduler::GetInstance().Schedule(true, &m_nonAutoAim);
+        }
+        m_buttonPressed = true;
+    } else {
+        if (m_buttonPressed) {
+            frc2::CommandScheduler::GetInstance().Schedule(true, &m_defaultDrive);
+        }
+            
+        m_buttonPressed = false;
+    }
+}
 
-    double driveLeft = ControlBinding::getInstance()->getControlStatus("driveLeft", deadzone);
-    double driveRight = ControlBinding::getInstance()->getControlStatus("driveRight", deadzone);
-    bool shift = ControlBinding::getInstance()->getControlStatus("shift");
-    double shoot = ControlBinding::getInstance()->getControlStatus("shoot", deadzone);
-    bool intake = ControlBinding::getInstance()->getControlStatus("intake");
-    bool outtake = ControlBinding::getInstance()->getControlStatus("outtake");
-    bool tiltIntake = ControlBinding::getInstance()->getControlStatus("tiltIntake");
-
-    if (std::abs(driveLeft) > deadzone) {
-        std::cout << "Drive Left: " << driveLeft << std::endl;
-    }
-    if (std::abs(driveRight) > deadzone) {
-        std::cout << "Drive Right: " << driveRight << std::endl;
-    }
-    if (shift) {
-        std::cout << "Shift" << std::endl;
-    }
-    if (std::abs(shoot) > deadzone) {
-        std::cout << "Shoot: " << shoot << std::endl;
-    }
-    if (intake) {
-        std::cout << "Intake" << std::endl;
-    }
-    if (outtake) {
-        std::cout << "Outtake" << std::endl;
-    }
-    if (tiltIntake) {
-        std::cout << "Tilt Intake" << std::endl;
-    }
+void Robot::TestInit() {
 }
 
 /**
  * This function is called periodically during test mode.
  */
-void Robot::TestPeriodic() {}
+void Robot::TestPeriodic() {
+}
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
