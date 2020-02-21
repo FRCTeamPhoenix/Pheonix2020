@@ -61,7 +61,7 @@ void ControlBinding::displayControlBindings() {
 
 void ControlBinding::updateControlBindings() {
     try {
-        if (frc::SmartDashboard::getInstance().GetBoolean("Save Controls")) {
+        if (frc::SmartDashboard::GetBoolean("Save Controls")) {
             std::string control = frc::SmartDashboard::GetString("Control Mode");
             int newID = std::stoi(frc::SmartDashboard::GetString("ID"));
             auto it = m_controlData.find(control);

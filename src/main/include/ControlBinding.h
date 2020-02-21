@@ -37,8 +37,8 @@ class ControlBinding {
         double getControlStatus(std::string control, double deadzone = 0);
 
     private:
-        frc::Joystick m_driverJoystick{DRIVER_CONTROL};
-        frc::Joystick m_operatorJoystick{OPERATOR_CONTROL};
+        frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
+        frc::Joystick m_operatorJoystick{OPERATOR_JOYSTICK};
         std::unordered_map<std::string, ControlData> m_controlData;
 
         std::shared_ptr<nt::NetworkTable> m_controls = nt::NetworkTableInstance::GetDefault().GetTable("Control Bindings");
