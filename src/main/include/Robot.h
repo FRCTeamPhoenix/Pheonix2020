@@ -11,6 +11,7 @@
 #include <frc2/command/Command.h>
 #include <frc/Joystick.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/InstantCommand.h>
 
 #include "commands/MotionMagic.h"
 #include "commands/Turn.h"
@@ -38,7 +39,12 @@ private:
   DefaultOperate m_defaultOperate;
   frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
   AimAdjust m_nonAutoAim{false};
-  frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0)};
+  
+  frc2::InstantCommand m_fireBalls{[this] {Shooter::getInstance()->setFlywheelSpeed(0.5); 
+  Shooter::getInstance()->setShooterSpeed(0.5); 
+  Shooter::getInstance()->setLoaderSpeed(0.5);},
+  {Shooter::getInstance()}};
+  frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), m_fireBalls};
   //frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), Turn(180.0), AimAdjust(true)};
 
   bool m_buttonPressed = false;

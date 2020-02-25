@@ -76,12 +76,10 @@ void Shooter::setIntakeSpeed(const double& percent) {
 }
 
 void Shooter::tiltIntakeUp(bool active) {
-    std::cout << "Tilt up: " << active << std::endl;
     PCMHandler::getInstance()->tiltIntakeUp(active);
 }
 
 void Shooter::tiltIntakeDown(bool active) {
-    std::cout << "Tilt down: " << active << std::endl;
     PCMHandler::getInstance()->tiltIntakeDown(active);
 }
 
