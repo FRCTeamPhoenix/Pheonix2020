@@ -3,7 +3,9 @@
 #include <unordered_map>
 
 #include <frc/Joystick.h>
+#include <networktables/EntryListenerFlags.h>
 #include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableEntry.h>
 #include <networktables/NetworkTableInstance.h>
 
 #include "Constants.h"

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "ControlBinding.h"
 #include "ControlModeDoesNotExistException.h"
 
@@ -22,6 +24,7 @@ void ControlBinding::initialize() {
     m_controlData["tiltIntakeDown"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6}; // Right Bumper
 
     displayControlBindings();
+    updateControlBindings();
 }
 
 double ControlBinding::getControlStatus(std::string control, double deadzone /* = 0 */) {
@@ -60,14 +63,9 @@ void ControlBinding::displayControlBindings() {
 }
 
 void ControlBinding::updateControlBindings() {
-    try {
-        if (frc::SmartDashboard::GetBoolean("Save Controls")) {
-            std::string control = frc::SmartDashboard::GetString("Control Mode");
-            int newID = std::stoi(frc::SmartDashboard::GetString("ID"));
-            auto it = m_controlData.find(control);
-            it->second.id = newID;
-        }
-    } catch (std::exception& e) {
-        std::cout << "Exception Occurred: " << e.what() << std::endl;
-    }
+    m_controls->AddEntryListener([] (nt::NetworkTable* table, wpi::StringRef key,
+        nt::NetworkTableEntry entry, std::shared_ptr<nt::Value> value, int flags) {
+        std::cout << "Key: " << key << std::endl;
+        std::cout << "Value: " << value->GetDouble() << std::endl;
+    }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
 }

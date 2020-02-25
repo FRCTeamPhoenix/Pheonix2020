@@ -51,8 +51,6 @@ void Robot::RobotPeriodic() {
     if(!frc::SmartDashboard::GetBoolean("Should Auto", false)){
         frc::SmartDashboard::PutBoolean("Should Auto", false);
     }
-    
-    ControlBinding::getInstance()->updateControlBindings();
 }
 
 /**
