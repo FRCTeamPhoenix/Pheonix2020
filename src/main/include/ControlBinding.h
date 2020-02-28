@@ -7,6 +7,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableEntry.h>
 #include <networktables/NetworkTableInstance.h>
+#include <networktables/TableEntryListener.h>
 
 #include "Constants.h"
 
@@ -35,7 +36,7 @@ class ControlBinding {
         void operator = (ControlBinding const&) = delete;
         ControlBinding();
         void initialize();
-        void updateControlBindings();
+        void addListenerToControlEntry();
         double getControlStatus(std::string control, double deadzone = 0);
 
     private:
@@ -48,4 +49,5 @@ class ControlBinding {
         std::shared_ptr<nt::NetworkTable> m_operatorControls = m_controls->GetSubTable("Operator Controls");
 
         void displayControlBindings();
+        void updateControlBinding(std::string controlName, int id);
 };

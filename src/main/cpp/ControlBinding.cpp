@@ -1,9 +1,12 @@
-#include <iostream>
+#include <exception>
+#include <chrono>
+#include <thread>
 
 #include "ControlBinding.h"
 #include "ControlModeDoesNotExistException.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <ntcore_cpp.h>
 
 ControlBinding::ControlBinding() {}
 
@@ -15,6 +18,7 @@ void ControlBinding::initialize() {
     m_controlData["shiftLow"] = {JoystickType::DRIVER, ControlType::BUTTON, 7};         // Left Trigger
     m_controlData["switchCamera"] = {JoystickType::DRIVER, ControlType::BUTTON, 3};     // Button 'B'
     m_controlData["visionAim"] = {JoystickType::DRIVER, ControlType::BUTTON, 1};        // Button 'X'
+    m_controlData["eBrake"] = {JoystickType::DRIVER, ControlType::BUTTON, 6};            // Right Bumper
     // Operator controls
     m_controlData["moveloader"] = {JoystickType::OPERATOR, ControlType::AXIS, 1};       // Left Axis
     m_controlData["shoot"] = {JoystickType::OPERATOR, ControlType::AXIS, 3};            // Right Axis
@@ -24,7 +28,7 @@ void ControlBinding::initialize() {
     m_controlData["tiltIntakeDown"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6}; // Right Bumper
 
     displayControlBindings();
-    updateControlBindings();
+    addListenerToControlEntry();
 }
 
 double ControlBinding::getControlStatus(std::string control, double deadzone /* = 0 */) {
@@ -62,10 +66,38 @@ void ControlBinding::displayControlBindings() {
     }
 }
 
-void ControlBinding::updateControlBindings() {
-    m_controls->AddEntryListener([] (nt::NetworkTable* table, wpi::StringRef key,
-        nt::NetworkTableEntry entry, std::shared_ptr<nt::Value> value, int flags) {
-        std::cout << "Key: " << key << std::endl;
-        std::cout << "Value: " << value->GetDouble() << std::endl;
+void ControlBinding::addListenerToControlEntry() {
+    frc::SmartDashboard::PutString("Control Name", "Name");
+    frc::SmartDashboard::PutNumber("Joystick ID", -1);
+    nt::NetworkTableEntry controlEntry = frc::SmartDashboard::GetEntry("Control Name");
+    nt::NetworkTableEntry idEntry = frc::SmartDashboard::GetEntry("Joystick ID");
+
+    controlEntry.AddListener([this] (nt::EntryNotification event) {
+        std::string controlName = event.value->GetString();
+        int id = frc::SmartDashboard::GetNumber("Joystick ID", -1);
+        updateControlBinding(controlName, id);
+        frc::SmartDashboard::PutString("Control Name", event.value->GetString());
+        std::cout << "Name: " << controlName << "\tValue: " << id << std::endl;
+    }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
+
+    idEntry.AddListener([this] (nt::EntryNotification event) {
+        std::string controlName = frc::SmartDashboard::GetString("Control Name", "Name");
+        int id = event.value->GetDouble();
+        updateControlBinding(controlName, id);
+        frc::SmartDashboard::PutNumber("Joystick ID", event.value->GetDouble());
+        std::cout << "Name: " << controlName << "\tValue: " << id << std::endl;
     }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
 }
+
+void ControlBinding::updateControlBinding(std::string controlName, int id) {
+    auto it = m_controlData.find(controlName);
+
+    try {
+        it->second.id = id;
+    } catch (ControlModeDoesNotExistException e) {
+        std::cout << e.what() << std::endl;
+    }
+}
+
+
+
