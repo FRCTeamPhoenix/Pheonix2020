@@ -37,7 +37,6 @@ const int TALON_BACK_RIGHT = 4;
 const int TALON_FLYWHEEL_LEFT = 5;
 const int TALON_FLYWHEEL_RIGHT = 6;
 const int TALON_SHOOTER_TOP = 7;
-const int TALON_SHOOTER_BOTTOM = 8;
 const int TALON_LOADER_LEFT = 9;
 const int TALON_LOADER_RIGHT = 10;
 const int TALON_INTAKE = 11;

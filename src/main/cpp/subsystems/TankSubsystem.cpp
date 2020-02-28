@@ -84,6 +84,9 @@ void TankSubsystem::init(){
     m_frontRight.Config_kF(PID_HEADING_SLOT, 0.0);
     m_frontRight.Config_IntegralZone(PID_HEADING_SLOT, 400); //allowable error
     m_frontRight.ConfigClosedLoopPeakOutput(PID_HEADING_SLOT, 0.5); //max percent output
+
+    //set both wheels to coast
+    setCoastMode();
 }
 
 void TankSubsystem::setSpeed(const double& left, const double& right){
@@ -96,6 +99,16 @@ void TankSubsystem::setHighGear() {
 
 void TankSubsystem::setLowGear(){
     PCMHandler::getInstance()->setLowGear();
+}
+
+void TankSubsystem::setBrakeMode(){
+    m_frontLeft.SetNeutralMode(Brake);
+    m_frontRight.SetNeutralMode(Coast);
+}
+
+void TankSubsystem::setCoastMode(){
+    m_frontLeft.SetNeutralMode(Coast);
+    m_frontRight.SetNeutralMode(Coast);
 }
 
 void TankSubsystem::zeroEncoders(){

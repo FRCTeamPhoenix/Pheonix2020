@@ -22,6 +22,8 @@ class TankSubsystem : public frc2::SubsystemBase {
         void setSpeed(const double& left, const double& right);
         void setHighGear();
         void setLowGear();
+        void setBrakeMode();
+        void setCoastMode();
 
         //zero encoders
         void zeroEncoders();

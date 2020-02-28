@@ -30,7 +30,6 @@ class Shooter : public frc2::SubsystemBase {
         TalonSRX m_flywheelLeft = {TALON_FLYWHEEL_LEFT};
         TalonSRX m_flywheelRight = {TALON_FLYWHEEL_RIGHT};
         TalonSRX m_shooterTop = {TALON_SHOOTER_TOP};
-        TalonSRX m_shooterBottom = {TALON_SHOOTER_BOTTOM};
         TalonSRX m_loaderLeft = {TALON_LOADER_LEFT};
         TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
         TalonSRX m_intake = {TALON_INTAKE};
