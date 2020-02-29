@@ -18,17 +18,16 @@ void DefaultOperate::Execute() {
     bool tiltIntakeUp = ControlBinding::getInstance()->getControlStatus("tiltIntakeUp") > 0.1;
     bool tiltIntakeDown = ControlBinding::getInstance()->getControlStatus("tiltIntakeDown") > 0.1;
 
-    Shooter::getInstance()->setLoaderSpeed(recoilSpeed * 0.15);
-    Shooter::getInstance()->setShooterSpeed(recoilSpeed * 0.5);
-    Shooter::getInstance()->setFlywheelSpeed(shoot * 0.5);
+    Shooter::getInstance()->setLoaderSpeed(recoilSpeed * LOADER_SPEED);
+    Shooter::getInstance()->setShooterSpeed(recoilSpeed * SHOOTER_SPEED);
+    Shooter::getInstance()->setFlywheelSpeed(shoot * FLYWHEEL_SPEED);
     Shooter::getInstance()->tiltIntakeUp(tiltIntakeUp);
     Shooter::getInstance()->tiltIntakeDown(tiltIntakeDown);
 
     if (intake) {
-        std::cout<<"Push"<<std::endl;
-        Shooter::getInstance()->setIntakeSpeed(0.5);
+        Shooter::getInstance()->setIntakeSpeed(INTAKE_SPEED);
     } else if (outtake) {
-        Shooter::getInstance()->setIntakeSpeed(-0.5);
+        Shooter::getInstance()->setIntakeSpeed(-INTAKE_SPEED);
     } else {
         Shooter::getInstance()->setIntakeSpeed(0);
     }

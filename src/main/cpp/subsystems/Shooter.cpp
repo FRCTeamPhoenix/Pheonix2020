@@ -36,10 +36,10 @@ void Shooter::initialize() {
     m_intake.ConfigNominalOutputReverse(0);
 
     // Configure power limits on motors (change if needed)
-    m_flywheelLeft.ConfigPeakOutputForward(0.5);
-    m_flywheelLeft.ConfigPeakOutputReverse(-0.5);
-    m_flywheelRight.ConfigPeakOutputForward(0.5);
-    m_flywheelRight.ConfigPeakOutputReverse(-0.5);
+    m_flywheelLeft.ConfigPeakOutputForward(FLYWHEEL_SPEED);
+    m_flywheelLeft.ConfigPeakOutputReverse(-FLYWHEEL_SPEED);
+    m_flywheelRight.ConfigPeakOutputForward(FLYWHEEL_SPEED);
+    m_flywheelRight.ConfigPeakOutputReverse(-FLYWHEEL_SPEED);
     m_shooterTop.ConfigPeakOutputForward(1.0);
     m_shooterTop.ConfigPeakOutputReverse(-1.0);
     m_loaderLeft.ConfigPeakOutputForward(1.0);

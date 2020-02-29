@@ -30,10 +30,10 @@ const int OPERATOR_JOYSTICK = 1;
 // Talon IDs
 // Note: Make the robot follow this id system using phoenix tuner
 const int IMU_ID = 0;
-const int TALON_FRONT_LEFT = 1;
-const int TALON_FRONT_RIGHT = 2;
-const int TALON_BACK_LEFT = 3;
-const int TALON_BACK_RIGHT = 4;
+const int TALON_FRONT_LEFT = 3;
+const int TALON_FRONT_RIGHT = 4;
+const int TALON_BACK_LEFT = 1;
+const int TALON_BACK_RIGHT = 2;
 const int TALON_FLYWHEEL_LEFT = 5;
 const int TALON_FLYWHEEL_RIGHT = 6;
 const int TALON_SHOOTER_TOP = 7;
@@ -61,11 +61,10 @@ const int PID_VELOCITY_SLOT = 0;
 const int PID_HEADING_SLOT = 1;
 
 //used for the aim adjust
-const double AIM_P = 0.05;
-const double AIM_DIST_P = 0.03;
-const double AIM_FF = 0.01;
-const double AIM_THRESH = 0.5;
-const double DIST_TRESH = 5.0;
+const double AIM_P = 0.2;
+const double AIM_DIST_P = 0.3;
+const double AIM_THRESH = 0.4;
+const double DIST_THRESH = 0.3;
 
 //used for the turning maneuver
 const double TURN_P = 0.02;
@@ -77,7 +76,12 @@ const double TURN_END_TRESH = 5;
 const double TARGET_HEIGHT_IN = 48.0;
 const double CAMERA_HEIGHT_IN = 7.5;
 const double CAMERA_ANGLE = 0.0;
-const double TARGET_DIST_IN = 240.0;
+
+//speeds for the shooter mechanism
+const double FLYWHEEL_SPEED = 0.46;
+const double LOADER_SPEED = 0.15;
+const double SHOOTER_SPEED = 0.5;
+const double INTAKE_SPEED = 0.8;
 
 //conversion values
 const double TICKS_PER_REV = 4096.0;

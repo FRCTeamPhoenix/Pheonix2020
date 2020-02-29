@@ -40,12 +40,13 @@ private:
   frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
   AimAdjust m_nonAutoAim{false};
   
-  frc2::InstantCommand m_fireBalls{[this] {Shooter::getInstance()->setFlywheelSpeed(0.5); 
-  Shooter::getInstance()->setShooterSpeed(0.5); 
-  Shooter::getInstance()->setLoaderSpeed(0.5);},
+  frc2::InstantCommand m_fireBalls{[this] {Shooter::getInstance()->setFlywheelSpeed(FLYWHEEL_SPEED); 
+  Shooter::getInstance()->setShooterSpeed(SHOOTER_SPEED); 
+  Shooter::getInstance()->setLoaderSpeed(LOADER_SPEED);},
   {Shooter::getInstance()}};
-  frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), m_fireBalls};
-  //frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV * 5.0, 0.0, 400.0, 400.0), Turn(180.0), AimAdjust(true)};
+  //temporary version for field testing, re-add motion magic when encoders configured
+  frc2::SequentialCommandGroup m_autoCommand{AimAdjust(true), m_fireBalls};
+  //frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV, 0.0, 400.0, 400.0), AimAdjust(true), m_fireBalls};
 
   bool m_buttonPressed = false;
   int m_counter = 0;

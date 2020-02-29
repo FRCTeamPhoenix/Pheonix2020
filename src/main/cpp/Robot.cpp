@@ -80,11 +80,11 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     //teleop logic
-    if(m_counter < 120){
-        TankSubsystem::getInstance()->setSpeed(0.5, 0.5);
-        //frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
-    }else{
+    if(m_counter == 1){
         TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+        TankSubsystem::getInstance()->zeroEncoders();
+        TankSubsystem::getInstance()->zeroGyro();
+        frc2::CommandScheduler::GetInstance().Schedule(true, &m_autoCommand);
     }
 
     m_counter++;
