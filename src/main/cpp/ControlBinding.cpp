@@ -28,14 +28,14 @@ void ControlBinding::initialize() {
     m_controlData["tiltIntakeDown"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6}; // Right Bumper
 
     displayControlBindings();
-    addListenerToControlEntry();
+    enableControlBindingConfigurations();
 }
 
 double ControlBinding::getControlStatus(std::string control, double deadzone /* = 0 */) {
-    auto it = m_controlData.find(control);
 
     // Determine if control mode is active
-    try {
+    if (m_controlData.find(control) != m_controlData.end()) {
+        auto it = m_controlData.find(control);
         if (it->second.driver == JoystickType::DRIVER && it->second.control == ControlType::AXIS) {
             double rawAxis = m_driverJoystick.GetRawAxis(it->second.id);
             return std::abs(rawAxis) > deadzone ? rawAxis : 0;
@@ -47,8 +47,6 @@ double ControlBinding::getControlStatus(std::string control, double deadzone /* 
         } else if (it->second.driver == JoystickType::OPERATOR && it->second.control == ControlType::BUTTON) {
             return m_operatorJoystick.GetRawButton(it->second.id);
         }
-    } catch (ControlModeDoesNotExistException e) {
-        std::cout << e.what() << std::endl;
     }
 
     return false;
@@ -66,38 +64,30 @@ void ControlBinding::displayControlBindings() {
     }
 }
 
-void ControlBinding::addListenerToControlEntry() {
-    frc::SmartDashboard::PutString("Control Name", "Name");
-    frc::SmartDashboard::PutNumber("Joystick ID", -1);
-    nt::NetworkTableEntry controlEntry = frc::SmartDashboard::GetEntry("Control Name");
-    nt::NetworkTableEntry idEntry = frc::SmartDashboard::GetEntry("Joystick ID");
-
-    controlEntry.AddListener([this] (nt::EntryNotification event) {
-        std::string controlName = event.value->GetString();
-        int id = frc::SmartDashboard::GetNumber("Joystick ID", -1);
-        updateControlBinding(controlName, id);
-        frc::SmartDashboard::PutString("Control Name", event.value->GetString());
-        std::cout << "Name: " << controlName << "\tValue: " << id << std::endl;
-    }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
-
-    idEntry.AddListener([this] (nt::EntryNotification event) {
-        std::string controlName = frc::SmartDashboard::GetString("Control Name", "Name");
-        int id = event.value->GetDouble();
-        updateControlBinding(controlName, id);
-        frc::SmartDashboard::PutNumber("Joystick ID", event.value->GetDouble());
-        std::cout << "Name: " << controlName << "\tValue: " << id << std::endl;
-    }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
-}
-
-void ControlBinding::updateControlBinding(std::string controlName, int id) {
-    auto it = m_controlData.find(controlName);
-
-    try {
+void ControlBinding::updateControlBinding(std::string control, int id) {
+    // If control exists, update corresponding joystick ID
+    if (m_controlData.find(control) != m_controlData.end()) {
+        auto it = m_controlData.find(control);
         it->second.id = id;
-    } catch (ControlModeDoesNotExistException e) {
-        std::cout << e.what() << std::endl;
+        if (it->second.driver == JoystickType::DRIVER) {
+            m_driverControls->GetEntry(it->first).SetDouble(it->second.id);
+        } else {
+            m_operatorControls->GetEntry(it->first).SetDouble(it->second.id);
+        }
     }
+
+    m_configurations->GetEntry("Control Name").SetString("Name");
+    m_configurations->GetEntry("Joystick ID").SetDouble(-1);
+    m_configurations->GetEntry("Save Controls").SetBoolean(false);
 }
 
+void ControlBinding::enableControlBindingConfigurations() {
+    nt::NetworkTableEntry saveControlsEntry = m_configurations->GetEntry("Save Controls");
 
-
+    // Update control bindings if "Save Controls" button is clicked
+    saveControlsEntry.AddListener([this] (nt::EntryNotification event) {
+        std::string controlName = m_configurations->GetEntry("Control Name").GetString("Name");
+        int id = m_configurations->GetEntry("Joystick ID").GetDouble(-1);
+        updateControlBinding(controlName, id);
+    }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
+}

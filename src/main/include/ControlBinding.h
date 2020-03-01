@@ -3,11 +3,9 @@
 #include <unordered_map>
 
 #include <frc/Joystick.h>
-#include <networktables/EntryListenerFlags.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableEntry.h>
 #include <networktables/NetworkTableInstance.h>
-#include <networktables/TableEntryListener.h>
 
 #include "Constants.h"
 
@@ -36,7 +34,6 @@ class ControlBinding {
         void operator = (ControlBinding const&) = delete;
         ControlBinding();
         void initialize();
-        void addListenerToControlEntry();
         double getControlStatus(std::string control, double deadzone = 0);
 
     private:
@@ -47,7 +44,9 @@ class ControlBinding {
         std::shared_ptr<nt::NetworkTable> m_controls = nt::NetworkTableInstance::GetDefault().GetTable("Control Bindings");
         std::shared_ptr<nt::NetworkTable> m_driverControls = m_controls->GetSubTable("Driver Controls");
         std::shared_ptr<nt::NetworkTable> m_operatorControls = m_controls->GetSubTable("Operator Controls");
+        std::shared_ptr<nt::NetworkTable> m_configurations = m_controls->GetSubTable("Control Configurations");
 
         void displayControlBindings();
         void updateControlBinding(std::string controlName, int id);
+        void enableControlBindingConfigurations();
 };
