@@ -16,10 +16,11 @@ class Shooter : public frc2::SubsystemBase {
         Shooter(Shooter const&) = delete;
         void operator = (Shooter const&) = delete;
         void initialize();
-        void setFlywheelSpeed(const double& speed);
-        void setShooterSpeed(const double& speed);
-        void setLoaderSpeed(const double& speed);
-        void setIntakeSpeed(const double& speed);
+        void setFlywheelSpeed(const double& percent);
+        void setShooterSpeed(const double& percent);
+        void setLoaderSpeed(const double& percent);
+        void setIntakeSpeed(const double& percent);
+        void setIntakeTiltSpeed(const double& percent);
         void execute();
         void stop();
     
