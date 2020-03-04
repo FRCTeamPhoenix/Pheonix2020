@@ -46,8 +46,10 @@ class ControlBinding {
         std::shared_ptr<nt::NetworkTable> m_operatorControls = m_controls->GetSubTable("Operator Controls");
         std::shared_ptr<nt::NetworkTable> m_configurations = m_controls->GetSubTable("Control Configurations");
 
-        void setDefaultControls();
-        void displayControlBindings();
+        void initializeDefaultControls();
+        void resetControls();
+        void useCustomizedControls();
+        void updateNetworkTable();
         void updateControlBinding(std::string controlName, int id);
         void enableControlBindingConfigurations();
 };

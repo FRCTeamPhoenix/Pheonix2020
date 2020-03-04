@@ -1,23 +1,19 @@
-#include <exception>
-#include <chrono>
-#include <thread>
-
+#include <iostream>
 #include "ControlBinding.h"
-#include "ControlModeDoesNotExistException.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/Preferences.h>
 #include <ntcore_cpp.h>
 
 ControlBinding::ControlBinding() {}
 
 void ControlBinding::initialize() {
+    initializeDefaultControls();
+    useCustomizedControls();
     enableControlBindingConfigurations();
-    setDefaultControls();
-    displayControlBindings();
 }
 
 double ControlBinding::getControlStatus(std::string control, double deadzone /* = 0 */) {
-
     // Determine if control mode is active
     if (m_controlData.find(control) != m_controlData.end()) {
         auto it = m_controlData.find(control);
@@ -37,7 +33,7 @@ double ControlBinding::getControlStatus(std::string control, double deadzone /* 
     return false;
 }
 
-void ControlBinding::setDefaultControls() {
+void ControlBinding::initializeDefaultControls() {
     // Driver controls
     m_controlData["driveLeft"] = {JoystickType::DRIVER, ControlType::AXIS, 1};          // Left Axis
     m_controlData["driveRight"] = {JoystickType::DRIVER, ControlType::AXIS, 3};         // Right Axis
@@ -55,8 +51,27 @@ void ControlBinding::setDefaultControls() {
     m_controlData["tiltIntakeDown"] = {JoystickType::OPERATOR, ControlType::BUTTON, 6}; // Right Bumper
 }
 
-void ControlBinding::displayControlBindings() {
-    for(auto it = m_controlData.begin(); it != m_controlData.end(); it++){
+void ControlBinding::resetControls() {
+    initializeDefaultControls();
+
+    for(auto it = m_controlData.begin(); it != m_controlData.end(); it++) {
+        frc::Preferences::GetInstance()->PutInt(it->first, it->second.id);
+    }
+
+    updateNetworkTable();
+}
+
+void ControlBinding::useCustomizedControls() {
+    for(auto it = m_controlData.begin(); it != m_controlData.end(); it++) {
+        int preferredID = frc::Preferences::GetInstance()->GetInt(it->first, it->second.id);
+        updateControlBinding(it->first, preferredID);
+    }
+
+    updateNetworkTable();
+}
+
+void ControlBinding::updateNetworkTable() {
+    for(auto it = m_controlData.begin(); it != m_controlData.end(); it++) {
         if (it->second.driver == JoystickType::DRIVER) {
             // Display driver control bindings
             m_driverControls->GetEntry(it->first).SetDouble(it->second.id);
@@ -68,42 +83,49 @@ void ControlBinding::displayControlBindings() {
 }
 
 void ControlBinding::updateControlBinding(std::string control, int id) {
-    // If control exists, update corresponding joystick ID
+    // If control exists, update corresponding control ID
     if (m_controlData.find(control) != m_controlData.end()) {
         auto it = m_controlData.find(control);
-        it->second.id = id;
+        frc::Preferences::GetInstance()->PutInt(control, id);
         if (it->second.driver == JoystickType::DRIVER) {
-            m_driverControls->GetEntry(it->first).SetDouble(it->second.id);
+            m_driverControls->GetEntry(it->first).SetDouble(id);
         } else {
-            m_operatorControls->GetEntry(it->first).SetDouble(it->second.id);
+            m_operatorControls->GetEntry(it->first).SetDouble(id);
         }
-        m_configurations->GetEntry("Control Name").SetString("Successfully Bound");
-        m_configurations->GetEntry("Joystick ID").SetDouble(-1);
+        it->second.id = id;
+        m_configurations->GetEntry("Control Binding Message").SetString("\"" + control + "\"" + " has been successfully bound to ID " + std::to_string(id) + ".");
+        m_configurations->GetEntry("Control ID").SetDouble(-1);
     } else {
-        m_configurations->GetEntry("Control Name").SetString("Invalid Input");
+        m_configurations->GetEntry("Control Binding Message").SetString("Invalid input, try again.");
     }
 }
 
-void ControlBinding::enableControlBindingConfigurations() {    
+void ControlBinding::enableControlBindingConfigurations() {
+    m_configurations->GetEntry("Control Binding Message").SetString("Running...");
+    m_configurations->GetEntry("Control Name").SetString("Name");
+    m_configurations->GetEntry("Control ID").SetDouble(-1);
+    m_configurations->GetEntry("Save Controls").SetBoolean(false);
+    m_configurations->GetEntry("Reset Controls").SetBoolean(false);
+
     nt::NetworkTableEntry saveControlsEntry = m_configurations->GetEntry("Save Controls");
-    nt::NetworkTableEntry useDefaultControlsEntry = m_configurations->GetEntry("Use Default Controls");
+    nt::NetworkTableEntry resetControlsEntry = m_configurations->GetEntry("Reset Controls");
 
     // Update control bindings if "Save Controls" button is clicked
     saveControlsEntry.AddListener([this] (nt::EntryNotification event) {
-        m_configurations->GetEntry("Save Controls").SetBoolean(false);
-        std::string controlName = m_configurations->GetEntry("Control Name").GetString("Name");
-        int id = m_configurations->GetEntry("Joystick ID").GetDouble(-1);
-        updateControlBinding(controlName, id);
+        if (event.value->GetBoolean()) {
+            m_configurations->GetEntry("Save Controls").SetBoolean(false);
+            std::string controlName = m_configurations->GetEntry("Control Name").GetString("Name");
+            int id = m_configurations->GetEntry("Control ID").GetDouble(-1);
+            updateControlBinding(controlName, id);
+        }
     }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
 
-    useDefaultControlsEntry.AddListener([this] (nt::EntryNotification event) {
-        m_configurations->GetEntry("Use Default Controls").SetBoolean(false);
-        setDefaultControls();
-        displayControlBindings();
+    // Resets to default controls
+    resetControlsEntry.AddListener([this] (nt::EntryNotification event) {
+        if (event.value->GetBoolean()) {
+            m_configurations->GetEntry("Reset Controls").SetBoolean(false);
+            resetControls();
+            m_configurations->GetEntry("Control Binding Message").SetString("Controls have been successfully reset.");
+        }
     }, NT_NOTIFY_NEW | NT_NOTIFY_UPDATE);
-
-    m_configurations->GetEntry("Control Name").SetString("Name");
-    m_configurations->GetEntry("Joystick ID").SetDouble(-1);
-    m_configurations->GetEntry("Save Controls").SetBoolean(false);
-    m_configurations->GetEntry("Use Default Controls").SetBoolean(false);
 }
