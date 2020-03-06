@@ -20,11 +20,11 @@
 
 void Robot::RobotInit() {
     ControlBinding::getInstance()->initialize();
-    Shooter::getInstance()->initialize();
+    /* Shooter::getInstance()->initialize();
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
     CameraHost::getInstance()->init();
-    Limelight::disableLight();
+    Limelight::disableLight(); */
 }
 
 /**
@@ -36,11 +36,11 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() { 
-    frc2::CommandScheduler::GetInstance().Run();
-    TankSubsystem::getInstance()->updateGyro();
+    //frc2::CommandScheduler::GetInstance().Run();
+    // TankSubsystem::getInstance()->updateGyro();
 
     //update color sensor values
-    frc::Color detectedColor = m_colorSensor.getDetectedColor();
+    /* frc::Color detectedColor = m_colorSensor.getDetectedColor();
     std::string approxColor = m_colorSensor.getApproximateColor();
 
     frc::SmartDashboard::PutNumber("R", detectedColor.red);
@@ -50,8 +50,7 @@ void Robot::RobotPeriodic() {
 
     if(!frc::SmartDashboard::GetBoolean("Should Auto", false)){
         frc::SmartDashboard::PutBoolean("Should Auto", false);
-    }
-    
+    } */
 }
 
 /**
@@ -62,7 +61,7 @@ void Robot::RobotPeriodic() {
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {
-    Limelight::disableLight();
+    // Limelight::disableLight();
 }
 
 /**

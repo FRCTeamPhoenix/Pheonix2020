@@ -40,6 +40,7 @@ const int TALON_SHOOTER_TOP = 7;
 const int TALON_LOADER_LEFT = 9;
 const int TALON_LOADER_RIGHT = 10;
 const int TALON_INTAKE = 11;
+const int TALON_INTAKE_TILT = 12;
 
 // Solenoid IDs
 const int PCM_CAN_ID = 11;
