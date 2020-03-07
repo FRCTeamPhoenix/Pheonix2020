@@ -29,11 +29,9 @@ void DefaultOperate::Execute() {
     }
 
     if (tiltIntakeUp) {
-        Shooter::getInstance()->setIntakeTiltSpeed(0.1);
+        Shooter::getInstance()->setIntakeTiltPosition(INTAKE_TILT_UPPER_LIMIT);
     } else if (tiltIntakeDown) {
-        Shooter::getInstance()->setIntakeTiltSpeed(-0.1);
-    } else {
-        Shooter::getInstance()->setIntakeTiltSpeed(0);
+        Shooter::getInstance()->setIntakeTiltPosition(INTAKE_TILT_LOWER_LIMIT);
     }
 }
 

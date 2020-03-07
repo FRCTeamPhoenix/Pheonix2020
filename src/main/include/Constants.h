@@ -30,10 +30,10 @@ const int OPERATOR_JOYSTICK = 1;
 // Talon IDs
 // Note: Make the robot follow this id system using phoenix tuner
 const int IMU_ID = 0;
-const int TALON_FRONT_LEFT = 3;
-const int TALON_FRONT_RIGHT = 4;
-const int TALON_BACK_LEFT = 1;
-const int TALON_BACK_RIGHT = 2;
+const int TALON_FRONT_LEFT = 1;
+const int TALON_FRONT_RIGHT = 2;
+const int TALON_BACK_LEFT = 3;
+const int TALON_BACK_RIGHT = 4;
 const int TALON_FLYWHEEL_LEFT = 5;
 const int TALON_FLYWHEEL_RIGHT = 6;
 const int TALON_SHOOTER_TOP = 7;
@@ -83,6 +83,11 @@ const double FLYWHEEL_SPEED = 0.46;
 const double LOADER_SPEED = 0.15;
 const double SHOOTER_SPEED = 0.5;
 const double INTAKE_SPEED = 0.8;
+const double INTAKE_TILT_SPEED = 0.1;
+
+// Intake tilt upper and lower limits
+const int INTAKE_TILT_UPPER_LIMIT = -100;
+const int INTAKE_TILT_LOWER_LIMIT = -17500;
 
 //conversion values
 const double TICKS_PER_REV = 4096.0;

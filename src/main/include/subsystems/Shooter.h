@@ -20,7 +20,8 @@ class Shooter : public frc2::SubsystemBase {
         void setShooterSpeed(const double& percent);
         void setLoaderSpeed(const double& percent);
         void setIntakeSpeed(const double& percent);
-        void setIntakeTiltSpeed(const double& percent);
+        void setIntakeTiltPosition(const int& targetPosition);
+        void zeroEncoders();
         void execute();
         void stop();
     
@@ -33,5 +34,4 @@ class Shooter : public frc2::SubsystemBase {
         TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
         TalonSRX m_intake = {TALON_INTAKE};
         TalonSRX m_intakeTilt = {TALON_INTAKE_TILT};
-        frc::DigitalInput m_ballSensor{LOADER_SENSOR_PORT};
 };
