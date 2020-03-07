@@ -28,10 +28,20 @@ void DefaultOperate::Execute() {
         Shooter::getInstance()->setIntakeSpeed(0);
     }
 
-    if (tiltIntakeUp) {
-        Shooter::getInstance()->setIntakeTiltPosition(INTAKE_TILT_UPPER_LIMIT);
+    /*if (tiltIntakeUp) {
+        Shooter::getInstance()->setIntakeTiltSpeed(1.0);
     } else if (tiltIntakeDown) {
-        Shooter::getInstance()->setIntakeTiltPosition(INTAKE_TILT_LOWER_LIMIT);
+        Shooter::getInstance()->setIntakeTiltSpeed(-1.0);
+    } else{
+        Shooter::getInstance()->setIntakeTiltSpeed(0.0);
+    }*/
+
+    if (tiltIntakeUp && Shooter::getInstance()->getTiltPosition() < INTAKE_TILT_UPPER_LIMIT) {
+        Shooter::getInstance()->setIntakeTiltSpeed(1.0);
+    } else if (tiltIntakeDown && Shooter::getInstance()->getTiltPosition() > INTAKE_TILT_LOWER_LIMIT) {
+        Shooter::getInstance()->setIntakeTiltSpeed(-1.0);
+    } else{
+        Shooter::getInstance()->setIntakeTiltSpeed(0.0);
     }
 }
 

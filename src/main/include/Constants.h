@@ -32,14 +32,14 @@ const int OPERATOR_JOYSTICK = 1;
 const int IMU_ID = 0;
 const int TALON_FRONT_LEFT = 1;
 const int TALON_FRONT_RIGHT = 2;
-const int TALON_BACK_LEFT = 3;
-const int TALON_BACK_RIGHT = 4;
+const int VICTOR_BACK_LEFT = 3;
+const int VICTOR_BACK_RIGHT = 4;
 const int TALON_FLYWHEEL_LEFT = 5;
 const int TALON_FLYWHEEL_RIGHT = 6;
 const int TALON_SHOOTER_TOP = 7;
 const int TALON_LOADER_LEFT = 9;
 const int TALON_LOADER_RIGHT = 10;
-const int TALON_INTAKE = 11;
+const int VICTOR_INTAKE = 11;
 const int TALON_INTAKE_TILT = 12;
 
 // Solenoid IDs
@@ -60,6 +60,9 @@ const frc::Color YELLOW_TARGET = frc::Color(0.361, 0.524, 0.113);
 // Slots for the two different pid configs on talons
 const int PID_VELOCITY_SLOT = 0;
 const int PID_HEADING_SLOT = 1;
+
+//distance to move in auto
+const int AUTO_DISTANCE = 4096 * 2;
 
 //used for the aim adjust
 const double AIM_P = 0.2;
@@ -86,7 +89,7 @@ const double INTAKE_SPEED = 0.8;
 const double INTAKE_TILT_SPEED = 0.1;
 
 // Intake tilt upper and lower limits
-const int INTAKE_TILT_UPPER_LIMIT = -100;
+const int INTAKE_TILT_UPPER_LIMIT = -350;
 const int INTAKE_TILT_LOWER_LIMIT = -17500;
 
 //conversion values

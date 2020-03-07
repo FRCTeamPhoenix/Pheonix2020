@@ -12,6 +12,7 @@
 #include <frc/Joystick.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/FunctionalCommand.h>
 
 #include "commands/MotionMagic.h"
 #include "commands/Turn.h"
@@ -40,14 +41,23 @@ private:
   frc::Joystick m_driverJoystick{DRIVER_JOYSTICK};
   AimAdjust m_nonAutoAim{false};
   
+  frc2::FunctionalCommand m_moveForward{
+    [this]{TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
+    TankSubsystem::getInstance()->zeroEncoders();},
+    [this]{TankSubsystem::getInstance()->setSpeed(0.5, 0.5);},
+    [this](bool interrupted){TankSubsystem::getInstance()->setSpeed(0.0, 0.0);},
+    [this]{return TankSubsystem::getInstance()->getFrontRight()->GetSelectedSensorPosition(0) > AUTO_DISTANCE;},
+    {TankSubsystem::getInstance()},
+  };
+
   frc2::InstantCommand m_fireBalls{[this] {Shooter::getInstance()->setFlywheelSpeed(FLYWHEEL_SPEED); 
   Shooter::getInstance()->setShooterSpeed(SHOOTER_SPEED); 
   Shooter::getInstance()->setLoaderSpeed(LOADER_SPEED);},
   {Shooter::getInstance()}};
   //temporary version for field testing, re-add motion magic when encoders configured
-  frc2::SequentialCommandGroup m_autoCommand{AimAdjust(true), m_fireBalls};
-  //frc2::SequentialCommandGroup m_autoCommand{MotionMagic( TICKS_PER_REV, 0.0, 400.0, 400.0), AimAdjust(true), m_fireBalls};
-
+  frc2::SequentialCommandGroup m_autoCommand{m_moveForward};
+  //frc2::SequentialCommandGroup m_autoCommand{m_moveForward, AimAdjust(true), m_fireBalls};
+  
   bool m_buttonPressed = false;
   int m_counter = 0;
 

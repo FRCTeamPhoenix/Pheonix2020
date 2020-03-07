@@ -20,11 +20,11 @@
 
 void Robot::RobotInit() {
     ControlBinding::getInstance()->initialize();
-    /* Shooter::getInstance()->initialize();
+    Shooter::getInstance()->initialize();
     TankSubsystem::getInstance()->init();
     TankSubsystem::getInstance()->zeroEncoders();
     CameraHost::getInstance()->init();
-    Limelight::disableLight(); */
+    Limelight::disableLight();
 }
 
 /**
@@ -36,7 +36,7 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() { 
-    //frc2::CommandScheduler::GetInstance().Run();
+    frc2::CommandScheduler::GetInstance().Run();
     // TankSubsystem::getInstance()->updateGyro();
 
     //update color sensor values
@@ -61,7 +61,7 @@ void Robot::RobotPeriodic() {
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {
-    // Limelight::disableLight();
+    Limelight::disableLight();
 }
 
 /**

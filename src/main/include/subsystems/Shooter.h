@@ -20,10 +20,11 @@ class Shooter : public frc2::SubsystemBase {
         void setShooterSpeed(const double& percent);
         void setLoaderSpeed(const double& percent);
         void setIntakeSpeed(const double& percent);
-        void setIntakeTiltPosition(const int& targetPosition);
+        void setIntakeTiltSpeed(const double& speed);
         void zeroEncoders();
         void execute();
         void stop();
+        int getTiltPosition();
     
     private:
         Shooter();
@@ -32,6 +33,6 @@ class Shooter : public frc2::SubsystemBase {
         TalonSRX m_shooterTop = {TALON_SHOOTER_TOP};
         TalonSRX m_loaderLeft = {TALON_LOADER_LEFT};
         TalonSRX m_loaderRight = {TALON_LOADER_RIGHT};
-        TalonSRX m_intake = {TALON_INTAKE};
+        VictorSPX m_intake = {VICTOR_INTAKE};
         TalonSRX m_intakeTilt = {TALON_INTAKE_TILT};
 };

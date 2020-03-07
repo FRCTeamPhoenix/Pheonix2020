@@ -14,14 +14,17 @@ void Shooter::initialize() {
     m_intake.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     m_intakeTilt.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     
+    //invert sensor phase
+    m_intakeTilt.SetSensorPhase(true);
+
     // Make sure corresponding motors spin opposite direction 
     m_flywheelLeft.SetInverted(true);
     m_flywheelRight.SetInverted(true);
     m_shooterTop.SetInverted(true);
-    m_loaderLeft.SetInverted(true);
+    m_loaderLeft.SetInverted(false);
     m_loaderRight.SetInverted(false);
     m_intake.SetInverted(false);
-    m_intakeTilt.SetInverted(false);
+    m_intakeTilt.SetInverted(true);
 
     // Configure nominal output for motors
     m_flywheelLeft.ConfigNominalOutputForward(0);
@@ -52,8 +55,8 @@ void Shooter::initialize() {
     m_loaderRight.ConfigPeakOutputReverse(-1.0);
     m_intake.ConfigPeakOutputForward(1.0);
     m_intake.ConfigPeakOutputReverse(-1.0);
-    m_intakeTilt.ConfigPeakOutputForward(0.1);
-    m_intakeTilt.ConfigPeakOutputReverse(-0.1);
+    m_intakeTilt.ConfigPeakOutputForward(0.5);
+    m_intakeTilt.ConfigPeakOutputReverse(-0.5);
     
     m_flywheelLeft.Follow(m_flywheelRight);
     m_loaderLeft.Follow(m_loaderRight);
@@ -77,16 +80,8 @@ void Shooter::setIntakeSpeed(const double& percent) {
     m_intake.Set(ControlMode::PercentOutput, percent);
 }
 
-void Shooter::setIntakeTiltPosition(const int& targetPosition) {
-    int currentPosition = m_intakeTilt.GetSensorCollection().GetQuadraturePosition();
-
-    if (currentPosition > targetPosition) {
-        m_intakeTilt.Set(ControlMode::PercentOutput, -INTAKE_TILT_SPEED);
-    } else if (currentPosition < targetPosition) {
-        m_intakeTilt.Set(ControlMode::PercentOutput, INTAKE_TILT_SPEED);
-    } else {
-        m_intakeTilt.Set(ControlMode::PercentOutput, 0);
-    }
+void Shooter::setIntakeTiltSpeed(const double& speed) {
+    m_intakeTilt.Set(ControlMode::PercentOutput, speed);
 }
 
 void Shooter::zeroEncoders() {
@@ -98,4 +93,8 @@ void Shooter::stop() {
     setShooterSpeed(0);
     setLoaderSpeed(0);
     setIntakeSpeed(0);
+}
+
+int Shooter::getTiltPosition(){
+    return m_intakeTilt.GetSelectedSensorPosition(0);
 }

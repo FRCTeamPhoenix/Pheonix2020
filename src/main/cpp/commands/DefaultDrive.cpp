@@ -36,6 +36,7 @@ void DefaultDrive::Execute() {
     //enable brake mode when 'X' is pressed
     if(ControlBinding::getInstance()->getControlStatus("brakeMode") > 0.1){
         TankSubsystem::getInstance()->setBrakeMode();
+        TankSubsystem::getInstance()->setSpeed(0.0001, 0.0001);
     }
     
     //toggle direction using the 'B' button

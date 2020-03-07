@@ -104,7 +104,7 @@ void TankSubsystem::setLowGear(){
 
 void TankSubsystem::setBrakeMode(){
     m_frontLeft.SetNeutralMode(Brake);
-    m_frontRight.SetNeutralMode(Coast);
+    m_frontRight.SetNeutralMode(Brake);
 }
 
 void TankSubsystem::setCoastMode(){
