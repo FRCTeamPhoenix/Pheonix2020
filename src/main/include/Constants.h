@@ -66,7 +66,7 @@ const int AUTO_DISTANCE = 4096 * 2;
 
 //used for the aim adjust
 const double AIM_P = 0.2;
-const double AIM_DIST_P = 0.3;
+const double AIM_DIST_P = 0.15;
 const double AIM_THRESH = 0.4;
 const double DIST_THRESH = 0.3;
 
@@ -82,11 +82,10 @@ const double CAMERA_HEIGHT_IN = 7.5;
 const double CAMERA_ANGLE = 0.0;
 
 //speeds for the shooter mechanism
-const double FLYWHEEL_SPEED = 0.46;
-const double LOADER_SPEED = 0.15;
-const double SHOOTER_SPEED = 0.5;
+const double FLYWHEEL_SPEED = 0.5;
+const double LOADER_SPEED = 0.2;
+const double SHOOTER_SPEED = 0.35;
 const double INTAKE_SPEED = 0.8;
-const double INTAKE_TILT_SPEED = 0.1;
 
 // Intake tilt upper and lower limits
 const int INTAKE_TILT_UPPER_LIMIT = -350;

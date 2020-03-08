@@ -29,14 +29,14 @@ void DefaultDrive::Execute() {
         } else {
             TankSubsystem::getInstance()->setSpeed(-leftStick, -rightStick);
         }
-    }else{
+    }else {
         TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
     }
     
     //enable brake mode when 'X' is pressed
-    if(ControlBinding::getInstance()->getControlStatus("brakeMode") > 0.1){
+    if(ControlBinding::getInstance()->getControlStatus("eBrake") > 0.1){
         TankSubsystem::getInstance()->setBrakeMode();
-        TankSubsystem::getInstance()->setSpeed(0.0001, 0.0001);
+        TankSubsystem::getInstance()->setSpeed(0.001, 0.001);
     }
     
     //toggle direction using the 'B' button

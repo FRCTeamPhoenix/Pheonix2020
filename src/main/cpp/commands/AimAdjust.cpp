@@ -42,7 +42,6 @@ bool AimAdjust::IsFinished() {
     if(m_autoVersion){
         float err = Limelight::getTx();
         float distErr = Limelight::getTy();
-        std::cout << err << " " << distErr << std::endl;
         return (std::abs(err) < AIM_THRESH && std::abs(distErr) < DIST_THRESH);
     }else{
         return !m_driverJoystick.GetRawButton(1);

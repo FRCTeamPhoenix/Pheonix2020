@@ -47,16 +47,16 @@ void Shooter::initialize() {
     m_flywheelLeft.ConfigPeakOutputReverse(-FLYWHEEL_SPEED);
     m_flywheelRight.ConfigPeakOutputForward(FLYWHEEL_SPEED);
     m_flywheelRight.ConfigPeakOutputReverse(-FLYWHEEL_SPEED);
-    m_shooterTop.ConfigPeakOutputForward(1.0);
-    m_shooterTop.ConfigPeakOutputReverse(-1.0);
-    m_loaderLeft.ConfigPeakOutputForward(1.0);
-    m_loaderLeft.ConfigPeakOutputReverse(-1.0);
-    m_loaderRight.ConfigPeakOutputForward(1.0);
-    m_loaderRight.ConfigPeakOutputReverse(-1.0);
+    m_shooterTop.ConfigPeakOutputForward(SHOOTER_SPEED);
+    m_shooterTop.ConfigPeakOutputReverse(-SHOOTER_SPEED);
+    m_loaderLeft.ConfigPeakOutputForward(LOADER_SPEED);
+    m_loaderLeft.ConfigPeakOutputReverse(-LOADER_SPEED);
+    m_loaderRight.ConfigPeakOutputForward(LOADER_SPEED);
+    m_loaderRight.ConfigPeakOutputReverse(-LOADER_SPEED);
     m_intake.ConfigPeakOutputForward(1.0);
     m_intake.ConfigPeakOutputReverse(-1.0);
-    m_intakeTilt.ConfigPeakOutputForward(0.5);
-    m_intakeTilt.ConfigPeakOutputReverse(-0.5);
+    m_intakeTilt.ConfigPeakOutputForward(0.75);
+    m_intakeTilt.ConfigPeakOutputReverse(-0.75);
     
     m_flywheelLeft.Follow(m_flywheelRight);
     m_loaderLeft.Follow(m_loaderRight);

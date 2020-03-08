@@ -79,7 +79,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     //teleop logic
-    if(m_counter == 1){
+    if(m_counter > 1){
         TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
         TankSubsystem::getInstance()->zeroEncoders();
         TankSubsystem::getInstance()->zeroGyro();
