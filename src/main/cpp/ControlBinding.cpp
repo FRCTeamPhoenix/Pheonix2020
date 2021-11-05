@@ -40,7 +40,7 @@ double ControlBinding::getControlStatus(std::string control, double deadzone /* 
 void ControlBinding::setDefaultControls() {
     // Driver controls
     m_controlData["driveLeft"] = {JoystickType::DRIVER, ControlType::AXIS, 1};          // Left Axis
-    m_controlData["driveRight"] = {JoystickType::DRIVER, ControlType::AXIS, 5};         // Right Axis
+    m_controlData["driveRight"] = {JoystickType::DRIVER, ControlType::AXIS, 4};         // Right Axis
     m_controlData["shiftHigh"] = {JoystickType::DRIVER, ControlType::BUTTON, 8};        // Right Trigger
     m_controlData["shiftLow"] = {JoystickType::DRIVER, ControlType::BUTTON, 7};         // Left Trigger
     m_controlData["switchCamera"] = {JoystickType::DRIVER, ControlType::BUTTON, 2};     // Button 'B'

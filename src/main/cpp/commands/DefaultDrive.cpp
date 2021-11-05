@@ -10,8 +10,8 @@ DefaultDrive::DefaultDrive() {
 void DefaultDrive::Initialize() {}
 
 void DefaultDrive::Execute() {
-    double leftStick = ControlBinding::getInstance()->getControlStatus("driveLeft", DEADZONE);
-    double rightStick = ControlBinding::getInstance()->getControlStatus("driveRight", DEADZONE);
+    double leftStick = pow(ControlBinding::getInstance()->getControlStatus("driveLeft", DEADZONE), 3);
+    double rightStick = pow(ControlBinding::getInstance()->getControlStatus("driveRight", DEADZONE), 3);
     bool shiftHigh = ControlBinding::getInstance()->getControlStatus("shiftHigh") > 0.1;
     bool shiftLow = ControlBinding::getInstance()->getControlStatus("shiftLow") > 0.1;
 
@@ -21,13 +21,17 @@ void DefaultDrive::Execute() {
         TankSubsystem::getInstance()->setLowGear();
     }
 
+    //calculate the left speed and right speed based on the stick
+    double leftSpeed = -leftStick + rightStick;
+    double rightSpeed = -leftStick - rightStick;
+
     if(std::abs(leftStick) > DEADZONE || std::abs(rightStick) > DEADZONE){
         TankSubsystem::getInstance()->setCoastMode();
         if (m_inverted) {
             //swap sides and direction
-            TankSubsystem::getInstance()->setSpeed(rightStick, leftStick);
+            TankSubsystem::getInstance()->setSpeed(-rightSpeed, -leftSpeed);
         } else {
-            TankSubsystem::getInstance()->setSpeed(-leftStick, -rightStick);
+            TankSubsystem::getInstance()->setSpeed(leftSpeed, rightSpeed);
         }
     }else {
         TankSubsystem::getInstance()->setSpeed(0.0, 0.0);
